@@ -4,11 +4,11 @@
       <p>Escribe el enunciado donde se obtendrá el tamaño funcional:</p>
       <img class="icon" src="assets/Ask.png" alt="Icono">
     </div>
-    <textarea class="user-input" placeholder="Escribe aquí..."></textarea>
+    <textarea #userInput class="user-input" placeholder="Escribe aquí..."></textarea>
   </div>
 
   <div class="button-container">
-    <button class="action-button">Calcular</button>
-    <button class="action-button">Complejidad</button>
+    <button (click)="logTextCalcular(userInput.value)" class="action-button">Calcular</button>
+    <button (click)="logTextComplejidad(userInput.value)" class="action-button">Complejidad</button>
   </div>
 </div>
