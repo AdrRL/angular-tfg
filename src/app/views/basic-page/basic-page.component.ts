@@ -15,6 +15,7 @@ export class BasicPageComponent
   public result: ApiResponse | null = null;
   public selectedAction: 'calcular' | 'complejidad' | null = null;
   public isLoading: boolean = false;
+  public isModalOpen: boolean = false;
 
   constructor
   (
@@ -128,6 +129,16 @@ export class BasicPageComponent
   public getObjectKeys(obj: any): string[]
   {
     return Object.keys(obj);
+  }
+
+  public openModal(): void
+  {
+    this.isModalOpen = true;
+  }
+
+  public closeModal(): void
+  {
+    this.isModalOpen = false;
   }
 
 }

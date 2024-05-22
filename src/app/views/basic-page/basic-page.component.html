@@ -3,7 +3,7 @@
     <div class="user">
       <div class="header">
         <p>Escriba el enunciado del que desea saber información:</p>
-        <img class="icon" src="assets/Ask.png" alt="Icono">
+        <img class="icon" src="assets/Ask.png" alt="Icono" (click)="openModal()">
       </div>
       <textarea #userInput class="user-input" placeholder="Escribe aquí..." [disabled]="isLoading"></textarea>
     </div>
@@ -14,6 +14,16 @@
     </div>
   </div>
 
+
+  <div *ngIf="isModalOpen" class="modal" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h2>Ayuda</h2>
+      <p><strong>Cuadro de texto:</strong> Aquí puede escribir el enunciado del que desea obtener información.</p>
+      <p><strong>Botón "Calcular Funciones":</strong> Detecta las funciones de datos y transaccionales encontradas en el enunciado.</p>
+      <p><strong>Botón "Calcular Complejidad":</strong> Calcula la complejidad de las funciones encontradas en el enunciado.</p>
+    </div>
+  </div>
 
   <div *ngIf="isLoading" class="loading">
     <img src="assets/Loading.gif" alt="Cargando...">
