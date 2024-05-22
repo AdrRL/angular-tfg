@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { OpenAI } from 'openai';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ export class OpenAIService
 
   constructor
   (
-
+    private http: HttpClient
   )
   {
     this.openai = new OpenAI({
@@ -74,8 +76,9 @@ export class OpenAIService
         body: body
       });
 
+      console.log('Respuesta - data: (fetch) ' + response);
       const data = await response.json();
-      console.log('Respuesta: (fetch) ', data);
+      console.log('Respuesta - data: (fetch) ', data);
 
       if (data && data.choices && data.choices.length > 0)
       {
@@ -92,6 +95,25 @@ export class OpenAIService
       console.error('Error con la API de OpenAI: (fetch) ', error);
       throw error;
     }
+  }
+
+  public sendMessageObservable(message: string): Observable<any>
+  {
+
+    const url = 'https://api.openai.com/v1/chat/completions';
+    const apiKey = 'sk-proj-O5bz8wYl6UxWRSocDPV7T3BlbkFJKAw6z3eUWlVP6obcao55';
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    });
+
+    const body = {
+      model: 'gpt-4o',
+      messages: [{ role: 'user', content: message }]
+    };
+
+    return this.http.post<any>(url, body, { headers });
   }
 
 }

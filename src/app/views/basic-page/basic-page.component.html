@@ -1,14 +1,98 @@
-<div class="content">
-  <div class="user">
-    <div class="header">
-      <p>Escribe el enunciado donde se obtendrá el tamaño funcional:</p>
-      <img class="icon" src="assets/Ask.png" alt="Icono">
+<div class="content" [class.loadingScreen]="isLoading">
+  <div class="fixed">
+    <div class="user">
+      <div class="header">
+        <p>Escriba el enunciado del que desea saber información:</p>
+        <img class="icon" src="assets/Ask.png" alt="Icono">
+      </div>
+      <textarea #userInput class="user-input" placeholder="Escribe aquí..." [disabled]="isLoading"></textarea>
     </div>
-    <textarea #userInput class="user-input" placeholder="Escribe aquí..."></textarea>
+
+    <div class="button-container">
+      <button (click)="logTextCalcular(userInput.value)" class="action-button" [disabled]="isLoading">Calcular Funciones</button>
+      <button (click)="logTextComplejidad(userInput.value)" class="action-button" [disabled]="isLoading">Calcular Complejidad</button>
+    </div>
   </div>
 
-  <div class="button-container">
-    <button (click)="logTextCalcular(userInput.value)" class="action-button">Calcular</button>
-    <button (click)="logTextComplejidad(userInput.value)" class="action-button">Complejidad</button>
+
+  <div *ngIf="isLoading" class="loading">
+    <img src="assets/Loading.gif" alt="Cargando...">
   </div>
+
+  <div *ngIf="result && !isLoading">
+    <h2 *ngIf="selectedAction === 'calcular'">Resumen de Funciones</h2>
+    <h2 *ngIf="selectedAction === 'complejidad'">Resumen de Complejidades</h2>
+    <h3 *ngIf="selectedAction === 'complejidad'">Resumen de Complejidad en las Funciones de Datos</h3>
+
+    <table border="1" *ngIf="selectedAction === 'calcular'">
+      <thead>
+        <tr>
+          <th>Entidad</th>
+          <th>Tipo</th>
+          <th>Funciones Transaccionales</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let key of getObjectKeys(result.Resultado)">
+          <td>{{ result.Resultado[key].Nombre }}</td>
+          <td>{{ result.Resultado[key].Tipo }}</td>
+          <td>{{ getFunctions(result.Resultado[key]) }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="selectedAction === 'complejidad'">
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Entidad</th>
+            <th>Tipo</th>
+            <th>Complejidad DET</th>
+            <th>Complejidad RET</th>
+            <th>Puntos Función</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let key of getObjectKeys(result.Resultado)">
+            <td>{{ result.Resultado[key].Nombre }}</td>
+            <td>{{ result.Resultado[key].Tipo }}</td>
+            <td>{{ result.Resultado[key].ComplejidadDET }}</td>
+            <td>{{ result.Resultado[key].ComplejidadRET }}</td>
+            <td>{{ result.Resultado[key].PuntosFuncion }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Resumen de Complejidad en las Funciones Transaccionales</h3>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Entidad</th>
+            <th>Función</th>
+            <th>Tipo</th>
+            <th>Complejidad DET</th>
+            <th>Complejidad FTR</th>
+            <th>Puntos Función</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let key of getObjectKeys(result.Resultado)">
+            <tr *ngFor="let func of result.Resultado[key].FuncionesTransaccionales">
+              <td>{{ result.Resultado[key].Nombre }}</td>
+              <td>{{ func.Nombre }}</td>
+              <td>{{ func.Tipo }}</td>
+              <td>{{ func.ComplejidadDET }}</td>
+              <td>{{ func.ComplejidadFTR }}</td>
+              <td>{{ func.PuntosFuncion }}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>JSON</h2>
+    <pre>{{ getFormattedJson() }}</pre>
+  </div>
+
 </div>
+
