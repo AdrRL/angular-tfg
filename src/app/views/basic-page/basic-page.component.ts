@@ -1,7 +1,9 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { ApiResponse } from 'src/app/interfaces/result.interface';
+import { ApiResponse, Entity, TransactionalFunction } from 'src/app/interfaces/result.interface';
 import { sendMessages } from 'src/app/models/send.model';
 import { OpenAIService } from 'src/app/services/openai.service';
+import { productivityTable } from 'src/app/models/hours.model';
+import { complexityILFEIF, complexityEI, complexityEOEQ, Data } from 'src/app/models/comparison.model';
 
 @Component({
   selector: 'basic-page',
@@ -16,6 +18,14 @@ export class BasicPageComponent
   public selectedAction: 'calcular' | 'complejidad' | null = null;
   public isLoading: boolean = false;
   public isModalOpen: boolean = false;
+  public FP: [number, number] = [0, 0];
+  public languages = productivityTable;
+
+  public selectedLanguage: any = null;
+  public selectedLanguageId: any = null;
+  public selectedProductivity: any = null;
+  public estimatedHours: number = 0;
+
 
   constructor
   (
@@ -27,80 +37,58 @@ export class BasicPageComponent
 
   public logTextCalcular(text: string): void
   {
-    console.log('Texto escrito: ' + text);
-    let sendMessage = sendMessages.calcular.replace('{text}', text);
-    console.log('Texto enviado: ' + text);
-
-    this.isLoading = true;
-    this.openAIService.sendMessageObservable(sendMessage)
-      .subscribe(
-        response => {
-          if (response && response.choices && response.choices.length > 0)
-          {
-            try
-            {
-              console.log('Respuesta de OpenAI:', response);
-              const content = response.choices[0].message.content;
-              const jsonResponse = this.extractJson(content);
-              this.result = JSON.parse(jsonResponse);
-              this.selectedAction = 'calcular';
-            }
-            catch (error)
-            {
-              console.error('Error con el JSON recibido:', error);
-            }
-          }
-          else
-          {
-            console.warn('La estructura no cumple el formato esperado');
-          }
-          this.isLoading = false;
-      },
-      error => {
-        console.error('Error con la API de OpenAI:', error);
-        this.isLoading = false;
-      }
-    );
-
+    this.selectedAction = 'calcular';
+    this.sendMessage(text, sendMessages.calcular);
   }
 
   public logTextComplejidad(text: string): void
   {
+    this.selectedAction = 'complejidad';
+    this.sendMessage(text, sendMessages.complejidad);
+  }
+
+  private sendMessage(text: string, messageTemplate: string): void
+  {
     console.log('Texto escrito: ' + text);
-    let sendMessage = sendMessages.complejidad.replace('{text}', text);
+    let sendMessage = messageTemplate.replace('{text}', text);
     console.log('Texto enviado: ' + text);
 
     this.isLoading = true;
-    this.openAIService.sendMessageObservable(sendMessage)
-      .subscribe(
-        response => {
-          if (response && response.choices && response.choices.length > 0)
+    this.openAIService.sendMessageObservable(sendMessage).subscribe(
+      response => {
+        if (response && response.choices && response.choices.length > 0)
+        {
+          try
           {
-            try
+            console.log('Respuesta de OpenAI:', response);
+            const content = response.choices[0].message.content;
+            const jsonResponse = this.extractJson(content);
+            this.result = JSON.parse(jsonResponse);
+            if (this.result)
+              this.result = this.assignComplexity(this.result);
+
+            if ( this.selectedAction == 'complejidad' && this.result)
             {
-              console.log('Respuesta de OpenAI:', response);
-              const content = response.choices[0].message.content;
-              const jsonResponse = this.extractJson(content);
-              this.result = JSON.parse(jsonResponse);
-              this.selectedAction = 'complejidad';
+              this.FP = this.sumFunctionPoints(this.result);
             }
-            catch (error)
-            {
-              console.error('Error con el JSON recibido:', error);
-            }
+
           }
-          else
+          catch (error)
           {
-            console.warn('La estructura no cumple el formato esperado');
+            console.error('Error con el JSON recibido:', error);
           }
-          this.isLoading = false;
+        }
+        else
+        {
+          console.warn('La estructura no cumple el formato esperado');
+        }
+        this.isLoading = false;
       },
       error => {
         console.error('Error con la API de OpenAI:', error);
         this.isLoading = false;
       }
     );
-
   }
 
   public extractJson(response: string): string
@@ -139,6 +127,106 @@ export class BasicPageComponent
   public closeModal(): void
   {
     this.isModalOpen = false;
+  }
+
+  public sumFunctionPoints(apiResponse: ApiResponse): [number, number]
+  {
+    let totalPoints:[number, number] = [0, 0];
+
+    for (const key in apiResponse.Resultado)
+    {
+      if (apiResponse.Resultado.hasOwnProperty(key))
+        {
+        const entity: Entity = apiResponse.Resultado[key];
+
+        if (entity.PuntosFuncion)
+          totalPoints[0] += entity.PuntosFuncion;
+
+
+        entity.FuncionesTransaccionales.forEach((func: TransactionalFunction) => {
+          if (func.PuntosFuncion)
+            totalPoints[1] += func.PuntosFuncion;
+        });
+      }
+    }
+
+    return totalPoints;
+  }
+
+  public showLanguage(event: Event)
+  {
+    const selectedId = +(event.target as HTMLSelectElement).value;
+    this.selectedLanguage = this.languages.find(lang => lang.id === selectedId);
+    if (this.selectedLanguage)
+    {
+      console.log(`Número de la lenguaje ${this.selectedLanguage.language}: ${this.selectedLanguage.id}`);
+      this.selectedLanguageId = selectedId;
+    }
+    this.calculateEstimatedHours();
+  }
+
+  public showProductivity(event: any)
+  {
+    this.selectedProductivity = event.target.value;
+    console.log(`Productividad ${this.selectedProductivity}`);
+    this.calculateEstimatedHours();
+  }
+
+  public calculateEstimatedHours()
+  {
+    if (this.selectedLanguage && this.selectedProductivity)
+    {
+      const totalFP = this.FP[0] + this.FP[1];
+      this.estimatedHours = totalFP * this.selectedLanguage[this.selectedProductivity];
+    }
+
+  }
+
+  public getComplexity(det: number, ret: number, mappings: Data[]): string
+  {
+    for (const mapping of mappings)
+    {
+      if (det >= mapping.minDET && det <= mapping.maxDET && ret >= mapping.minRET && ret <= mapping.maxRET)
+      {
+        return mapping.result;
+      }
+    }
+    return 'unknown';
+  }
+
+  public assignComplexity(apiResponse: ApiResponse): ApiResponse
+  {
+    const result = apiResponse.Resultado;
+
+    for (const key in result) {
+      if (result.hasOwnProperty(key))
+      {
+        const entity = result[key];
+
+        if (entity.Tipo === 'ILF' || entity.Tipo === 'EIF')
+        {
+          if (entity.ComplejidadDET !== undefined && entity.ComplejidadRET !== undefined)
+          {
+            entity.Complejidad = this.getComplexity(entity.ComplejidadDET, entity.ComplejidadRET, complexityILFEIF);
+          }
+        }
+
+        entity.FuncionesTransaccionales.forEach(func => {
+          if (func.Tipo === 'EI')
+          {
+            if (func.ComplejidadDET !== undefined && func.ComplejidadFTR !== undefined)
+              func.Complejidad = this.getComplexity(func.ComplejidadDET, func.ComplejidadFTR, complexityEI);
+          }
+          else if (func.Tipo === 'EO' || func.Tipo === 'EQ')
+          {
+            if (func.ComplejidadDET !== undefined && func.ComplejidadFTR !== undefined)
+              func.Complejidad = this.getComplexity(func.ComplejidadDET, func.ComplejidadFTR, complexityEOEQ);
+          }
+        });
+      }
+    }
+
+    return apiResponse;
   }
 
 }

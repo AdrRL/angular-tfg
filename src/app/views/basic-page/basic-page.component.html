@@ -98,6 +98,31 @@
           </ng-container>
         </tbody>
       </table>
+      <hr>
+      <h3>Resumen General</h3>
+      <div class="chart-container">
+        <pie-chart [chartData]="{ labels: ['Puntos Funcion funciones de datos', 'Puntos Funcion funciones transaccionales'], data: FP, backgroundColor: ['rgb(0, 100, 0)', 'rgb(144, 238, 144)'] }"></pie-chart>
+        <div class="total-fp">
+          TOTAL FP: {{ FP[0] + FP[1] }}
+        </div>
+        <div class="select-container">
+          <label for="languageSelect" class="select-label">Seleccione una lenguaje:</label>
+          <select id="languageSelect" (change)="showLanguage($event)" [(ngModel)]="selectedLanguageId">
+            <option value="" disabled selected>-- Seleccione una lenguaje --</option>
+            <option *ngFor="let language of languages" [value]="language.id">{{ language.language }}</option>
+          </select>
+          <label for="productivitySelect" class="select-label">Seleccione la productividad:</label>
+          <select id="productivitySelect" (change)="showProductivity($event)" [(ngModel)]="selectedProductivity">
+            <option value="" disabled selected>-- Seleccione la productividad --</option>
+            <option value="high">Alta</option>
+            <option value="medium">Media</option>
+            <option value="low">Baja</option>
+          </select>
+        </div>
+        <div class="total-fp" *ngIf="selectedLanguage && selectedProductivity">
+          <p>Horas estimadas: {{ estimatedHours }}</p>
+        </div>
+      </div>
     </div>
 
     <h2>JSON</h2>

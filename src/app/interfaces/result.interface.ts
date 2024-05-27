@@ -5,6 +5,7 @@ export interface TransactionalFunction {
   ComplejidadDET?: number;
   ComplejidadFTR?: number;
   PuntosFuncion?: number;
+  Complejidad?: string;
 }
 
 export interface Entity {
@@ -13,6 +14,7 @@ export interface Entity {
   ComplejidadDET?: number;
   ComplejidadRET?: number;
   PuntosFuncion?: number;
+  Complejidad?: string;
   FuncionesTransaccionales: TransactionalFunction[];
 }
 

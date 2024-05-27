@@ -75,6 +75,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  margin-bottom: 15px;
 }
 
 th, td {
@@ -183,3 +184,62 @@ th {
   border: 2px solid #4caf50;
   border-radius: 12px;
 }
+
+.chart-container {
+  display: flex;
+  align-items: center;
+
+  /* justify-content: space-between; */
+}
+
+.total-fp {
+  margin-left: 20px;
+  margin-top: 50px;
+  font-weight: bold;
+  font-size: 2em;
+  margin-bottom: 20px;
+  margin-right: 50px;
+}
+
+.select-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: large;
+}
+
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+
+option[disabled]:first-child {
+  display: none;
+}
+
+.select-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.select-container label {
+  margin-top: 10px;
+}
+
+.select-container select {
+  width: 200px;
+}
+
+.select-container p {
+  margin-top: 10px;
+  text-align: right;
+}
+
+/* .movement {
+  margin-left: auto;
+} */
