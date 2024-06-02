@@ -1,7 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
-
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'info-page',
@@ -13,17 +10,9 @@ export class InfoPageComponent
 
   constructor
   (
-    private authService: AuthService,
   )
   {
-    this.register();
   }
 
-  public register(): void
-  {
-    this.authService.register().subscribe(
-
-    );
-  }
 
 }

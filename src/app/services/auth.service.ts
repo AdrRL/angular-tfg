@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CookieService } from './cookie.service';
-import { User, Userlogin } from '../interfaces/user.interface';
+import { User, UserRegister, Userlogin } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -19,33 +19,14 @@ export class AuthService {
 
   }
 
-  public getUsers(): Observable<Object>
-  {
-    return this.http.get(`${this.apiUrl}/obtenerUsuariosDB`);
-  }
-
   public login(usr: Userlogin): Observable<Object>
   {
-    console.log("Login");
-    return this.http.post(`/loginUsuario`, usr);
+    return this.http.post(`${this.apiUrl}/loginUsuario`, usr);
   }
 
-  public agregarGoogleUser(usr: Userlogin): Observable<Object>
+  public register(usr: UserRegister): Observable<Object>
   {
-    return this.http.post(`/agregarGoogleUser`, usr);
-  }
-
-  public register(): Observable<Object> //usr: User
-  {
-    const exampleUser: User = {
-      name: 'Adrian',
-      surname: '',
-      email: 'adrirodlop25@gmail.com',
-      password: '1234'
-    };
-
-    console.log("Register");
-    return this.http.post(`${this.apiUrl}/registrarUsuario`, exampleUser);
+    return this.http.post(`${this.apiUrl}/registrarUsuario`, usr);
   }
 
   public checkUser(email: string): Observable<Object>
@@ -53,24 +34,7 @@ export class AuthService {
     let token = this.cookieService.getCookie("token");
     let headers = new HttpHeaders({"Authorization": `Bearer ${token}`});
 
-    return this.http.get(`/comprobarUsuario/${email}`, {headers});
-  }
-
-  public showUsers(): Observable<Object>
-  {
-    let token = this.cookieService.getCookie("token");
-    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`});
-
-    return this.http.get(`/obtenerUsuarios`, {headers});
-  }
-
-  public getUser(): Observable<any>
-  {
-    let email = this.cookieService.getCookie("email");
-    let token = this.cookieService.getCookie("token");
-    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`});
-
-    return this.http.get(`/obtenerUsuario/${email}`, {headers});
+    return this.http.get(`${this.apiUrl}/comprobarUsuario/${email}`, {headers});
   }
 
   public exit(): Observable<Object>
@@ -79,7 +43,7 @@ export class AuthService {
     let token = this.cookieService.getCookie("token");
     let headers = new HttpHeaders({"Authorization": `Bearer ${token}`});
 
-    return this.http.get(`/cerrarSesion/${email}`, {headers});
+    return this.http.get(`${this.apiUrl}/cerrarSesion/${email}`, {headers});
   }
 
   public addRecord(imagen: any, position: any): Observable<Object>
@@ -94,9 +58,7 @@ export class AuthService {
       positionLng: position.lng()
     };
 
-    console.log(markerData);
-
-    return this.http.post(`/agregarMarcador/${email}`, markerData, {headers});
+    return this.http.post(`/vacio/${email}`, markerData, {headers});
   }
 
 }

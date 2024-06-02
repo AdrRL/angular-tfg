@@ -1,23 +1,28 @@
 <div class="toolbar" role="banner">
-  <span class="fpa">FPA</span>
-  <span class="with">with</span>
-  <span class="openai-power">OPENAI POWER</span>
-  <img
-    width="35"
-    src="assets/OpenAI-logo.png"
-    alt="OpenAI Logo"
-  >
+  <div class="clickable-div" (click)="navigateToGeneral()" tabindex="0">
+    <span class="fpa">FPA</span>
+    <span class="with">with</span>
+    <span class="openai-power">OPENAI POWER</span>
+    <img width="35" src="assets/OpenAI-logo.png" alt="OpenAI Logo">
+  </div>
+
   <div class="spacer"></div>
-  <!--? Establecer con CookieService -->
-  <!-- <button class="toolbar-button" (click)="navigateToPrincipal()">
+  <button *ngIf="in" class="toolbar-button" (click)="navigateToPrincipal()">
     <img src="assets/Casa.png" alt="Casa Logo" class="button-icon" />
     Inicio
   </button>
-  <button class="toolbar-button" (click)="navigateToInfo()">
+
+  <button *ngIf="in" class="toolbar-button" (click)="navigateToInfo()">
     <img src="assets/Info.png" alt="Info Logo" class="button-icon" />
     ¿Quienes somos?
-  </button> -->
-  <button class="toolbar-button" (click)="navigateToAccess()">
+  </button>
+
+  <button *ngIf="in" class="toolbar-button log-out" (click)="exit()">
+    Cerrar sesión
+    <img src="assets/Salir.png" alt="Puerta Logo" class="button-icon" />
+  </button>
+
+  <button *ngIf="!in" class="toolbar-button" (click)="navigateToAccess()">
     <img src="assets/Acceso.png" alt="Acceso Logo" class="button-icon" />
     Acceder
   </button>

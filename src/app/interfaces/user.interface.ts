@@ -10,17 +10,17 @@ export interface Userlogin
 {
   email: string;
   password: string;
-  name?: string;
-  surname?: string;
 
   record?: string [];
 }
 
-export interface UserProfile
+export interface UserRegister
 {
-  name: string;
-  surname: string;
-  email: string;
+  email: string,
+  username: string,
+  firstName: string,
+  lastName: string,
+  password: string,
 
   record?: string [];
 }

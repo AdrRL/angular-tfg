@@ -4,6 +4,7 @@ import { ViewsComponent } from './views.component';
 import { InfoPageComponent } from './info-page/info-page.component';
 import { BasicPageComponent } from './basic-page/basic-page.component';
 import { AccessComponent } from './access-page/access-page.component';
+import { GeneralPageComponent } from './general-page/general-page.component';
 
 const routes: Routes = [
     {
@@ -12,8 +13,12 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            redirectTo: 'principal',
+            redirectTo: 'general',
             pathMatch: 'full',
+          },
+          {
+            path: 'general',
+            component: GeneralPageComponent
           },
           {
             path: 'principal',

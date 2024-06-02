@@ -2,7 +2,6 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CookieService as CookieNGXService} from 'ngx-cookie-service';
-import { UserProfile } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: "root"
@@ -10,7 +9,6 @@ import { UserProfile } from '../interfaces/user.interface';
 export class CookieService
 {
   private userToken: string | null = null;
-  private user: UserProfile | null = null;
 
 	constructor
   (
@@ -53,16 +51,6 @@ export class CookieService
   public deleteCookie(name: string): void
   {
     this.cookieService.delete(name);
-  }
-
-  public setUser(usr: UserProfile | null): void
-  {
-    this.cookieService.set("usr", JSON.stringify(usr));
-  }
-
-  public getUser(): UserProfile | null
-  {
-    return this.user;
   }
 
 }
