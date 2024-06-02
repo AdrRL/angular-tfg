@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { ViewsComponent } from './views.component';
 import { PieChartComponent } from '../shared/pie-chart/pie-chart.component';
 import { FormsModule } from '@angular/forms';
+import { AccessComponent } from './access-page/access-page.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { FormsModule } from '@angular/forms';
     ViewsComponent,
     BasicPageComponent,
     InfoPageComponent,
-    PieChartComponent
+    PieChartComponent,
+    AccessComponent
   ],
   imports: [
     RouterModule,

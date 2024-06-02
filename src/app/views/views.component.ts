@@ -17,12 +17,17 @@ export class ViewsComponent
 
   public navigateToInfo()
   {
-    this.router.navigate(['/inicio/informacion']);
+    this.router.navigate(['/FPAwithOpenAI/informacion']);
+  }
+
+  public navigateToAccess()
+  {
+    this.router.navigate(['/FPAwithOpenAI/acceso']);
   }
 
   public navigateToPrincipal()
   {
-    this.router.navigate(['/inicio/principal']);
+    this.router.navigate(['/FPAwithOpenAI/principal']);
   }
 
 }

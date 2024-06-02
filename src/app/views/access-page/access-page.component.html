@@ -1,0 +1,45 @@
+<div class="background">
+  <div class="access-container">
+    <div class="tabs">
+      <button [class.active]="isLogin" (click)="toggleLogin(true)">Iniciar Sesión</button>
+      <button [class.active]="!isLogin" (click)="toggleLogin(false)">Registrarse</button>
+    </div>
+
+    <div *ngIf="isLogin" class="login-container">
+      <div class="login-form">
+        <h2>Iniciar Sesión</h2>
+        <form (ngSubmit)="login()">
+          <input type="text" placeholder="Correo o Nombre de Usuario" [(ngModel)]="loginData.username" name="username" required>
+          <input type="password" placeholder="Contraseña" [(ngModel)]="loginData.password" name="password" required>
+          <button type="submit" class="action-button">Acceder</button>
+        </form>
+      </div>
+
+      <div class="vertical-bar"></div>
+
+      <div class="login-options">
+        <button class="login-option-button google">
+          <img src="assets/LogInGoogle.png" alt="Google Login">
+          Inicio sesión con Google
+        </button>
+        <button class="login-option-button openai">
+          <img src="assets/LogInOpenAI.jpg" alt="OpenAI Login">
+          Inicio sesión con OpenAI
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="!isLogin" class="register-container">
+      <h2>Registrarse</h2>
+      <form (ngSubmit)="register()">
+        <input type="email" placeholder="Correo" [(ngModel)]="registerData.email" name="email" required>
+        <input type="text" placeholder="Nombre de Usuario" [(ngModel)]="registerData.username" name="username" required>
+        <input type="text" placeholder="Nombre" [(ngModel)]="registerData.firstName" name="firstName" required>
+        <input type="text" placeholder="Apellido" [(ngModel)]="registerData.lastName" name="lastName" required>
+        <input type="password" placeholder="Contraseña" [(ngModel)]="registerData.password" name="password" required>
+        <input type="password" placeholder="Repetir Contraseña" [(ngModel)]="registerData.confirmPassword" name="confirmPassword" required>
+        <button type="submit" class="action-button">Registrarse</button>
+      </form>
+    </div>
+  </div>
+</div>

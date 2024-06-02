@@ -1,0 +1,140 @@
+.background {
+  background-color: #e0f7fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 89vh;
+}
+
+.access-container {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+
+.tabs {
+  display: flex;
+}
+
+.tabs button {
+  background-color: #00A67E;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px 4px 0 0;
+  font-size: 16px;
+  margin-right: 5px;
+  outline: none;
+}
+
+.tabs button.active {
+  background-color: #00765F;
+}
+
+.separator {
+  width: 100%;
+  border: none;
+  height: 1px;
+  background-color: black;
+  margin-bottom: 20px;
+}
+
+.login-container, .register-container {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  display: flex;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+form input {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 18px;
+}
+
+form button {
+  background-color: #00A67E;
+  border: none;
+  color: white;
+  padding: 12px 40px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 18px;
+}
+
+form button:hover {
+  background-color: #00765F;
+}
+
+h2 {
+  font-family: Arial, sans-serif;
+  color: #388e3c;
+  margin-bottom: 20px;
+}
+
+.vertical-bar {
+  width: 1px;
+  background-color: black;
+  margin-left: 40px;
+}
+
+.login-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  margin-left: 20px;
+}
+
+.login-option-button {
+  background-color: #ffffff;
+  border: 2px solid #ccc;
+  border-radius: 25px;
+  padding: 12px 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 16px;
+  width: 100%;
+  max-width: 200px;
+  justify-content: space-between;
+}
+
+.login-option-button img {
+  height: 24px;
+  width: 24px;
+}
+
+.login-option-button.google {
+  border-color: #4285F4;
+  margin-top: 30px;
+}
+
+.login-option-button.openai {
+  border-color: #00A67E;
+  margin-top: 10px;
+}
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

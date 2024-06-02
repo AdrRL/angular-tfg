@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -9,5 +10,20 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 })
 export class InfoPageComponent
 {
+
+  constructor
+  (
+    private authService: AuthService,
+  )
+  {
+    this.register();
+  }
+
+  public register(): void
+  {
+    this.authService.register().subscribe(
+
+    );
+  }
 
 }
