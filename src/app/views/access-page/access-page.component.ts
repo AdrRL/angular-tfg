@@ -52,12 +52,13 @@ export class AccessComponent
 
   public login(usr: Userlogin): void
   {
+    usr.email = usr.email.toLowerCase();
+
     this.authService.login(usr).subscribe(
       (respuesta: any) => {
-        console.log(respuesta)
-        if (respuesta.email === -1)
+        if (!respuesta || !respuesta.clave || respuesta.clave === -1 )
         {
-          this.modalMsg = 'La contraseña o el email introducido no es válido';
+          this.modalMsg = 'La contraseñaaaaa o el email/nombre de usuario introducidos no son válidos';
           this.showErrorModal();
         }
         else
@@ -77,6 +78,9 @@ export class AccessComponent
 
   public register(usr: UserRegister): void
   {
+    usr.email = usr.email.toLowerCase();
+    usr.username = usr.username.toLowerCase();
+
     this.authService.register(usr).subscribe(
       (respuesta: any) => {
         if (respuesta.email === -1)
@@ -147,7 +151,7 @@ export class AccessComponent
     this.showErrorModalFlag = true;
     setTimeout(() => {
       this.showErrorModalFlag = false;
-    }, 3000);
+    }, 5000);
   }
 
   public showSuccessModal(): void
