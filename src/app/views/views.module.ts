@@ -8,6 +8,7 @@ import { ViewsComponent } from './views.component';
 import { PieChartComponent } from '../shared/pie-chart/pie-chart.component';
 import { FormsModule } from '@angular/forms';
 import { AccessComponent } from './access-page/access-page.component';
+import { ProfilePageComponent } from './Profile-page/Profile-page.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { AccessComponent } from './access-page/access-page.component';
     BasicPageComponent,
     InfoPageComponent,
     PieChartComponent,
-    AccessComponent
+    AccessComponent,
+    ProfilePageComponent,
   ],
   imports: [
     RouterModule,

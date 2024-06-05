@@ -5,6 +5,7 @@ import { InfoPageComponent } from './info-page/info-page.component';
 import { BasicPageComponent } from './basic-page/basic-page.component';
 import { AccessComponent } from './access-page/access-page.component';
 import { GeneralPageComponent } from './general-page/general-page.component';
+import { ProfilePageComponent } from './Profile-page/Profile-page.component';
 
 const routes: Routes = [
     {
@@ -31,6 +32,10 @@ const routes: Routes = [
           {
             path: 'acceso',
             component: AccessComponent
+          },
+          {
+            path: 'perfil',
+            component: ProfilePageComponent
           },
           {
             path: '**',
