@@ -6,6 +6,7 @@ import { BasicPageComponent } from './basic-page/basic-page.component';
 import { AccessComponent } from './access-page/access-page.component';
 import { GeneralPageComponent } from './general-page/general-page.component';
 import { ProfilePageComponent } from './Profile-page/Profile-page.component';
+import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
     {
@@ -23,11 +24,13 @@ const routes: Routes = [
           },
           {
             path: 'principal',
-            component: BasicPageComponent
+            component: BasicPageComponent,
+            canActivate: [AuthGuard]
           },
           {
             path: 'informacion',
-            component: InfoPageComponent
+            component: InfoPageComponent,
+            canActivate: [AuthGuard]
           },
           {
             path: 'acceso',
@@ -35,7 +38,8 @@ const routes: Routes = [
           },
           {
             path: 'perfil',
-            component: ProfilePageComponent
+            component: ProfilePageComponent,
+            canActivate: [AuthGuard]
           },
           {
             path: '**',
