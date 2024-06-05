@@ -4,6 +4,8 @@ import { sendMessages } from 'src/app/models/send.model';
 import { OpenAIService } from 'src/app/services/openai.service';
 import { productivityTable } from 'src/app/models/hours.model';
 import { complexityILFEIF, complexityEI, complexityEOEQ, Data } from 'src/app/models/comparison.model';
+import { DatePipe } from '@angular/common';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'basic-page',
@@ -26,10 +28,13 @@ export class BasicPageComponent implements AfterViewInit
   public selectedProductivity: any = null;
   public estimatedHours: number = 0;
 
+  public currentDate: string | null = '';
 
   constructor
   (
-    private openAIService: OpenAIService
+    private authService: AuthService,
+    private openAIService: OpenAIService,
+    // private datePipe: DatePipe,
   )
   {
 
@@ -47,6 +52,12 @@ export class BasicPageComponent implements AfterViewInit
     textarea.style.height = 'auto';
     textarea.style.height = `${textarea.scrollHeight}px`;
   }
+
+  // public getCurrentDate(): void
+  // {
+  //   const date = new Date();
+  //   this.currentDate = this.datePipe.transform(date, 'fullDate HH:mm:ss');
+  // }
 
   public logTextCalcular(text: string): void
   {
@@ -242,14 +253,35 @@ export class BasicPageComponent implements AfterViewInit
     return apiResponse;
   }
 
+  public openSavePopup()
+  {
+    const name = prompt('Ingrese un nombre para guardar:');
+    if (name !== null && name.trim() !== '')
+    {
+      this.saveRecord(name.trim());
+    }
+  }
+
+  public saveRecord(name: string): void
+  {
+    if (this.result)
+      this.authService.addRecord(name, this.result).subscribe(
+        (respuesta: any) => {
+          console.log(respuesta)
+        },
+        (error: any) => {
+          console.error('Error al realizar la petición:', error);
+        }
+      );
+  }
+
   public saveResult(): void
   {
-    // Lógica para guardar el resultado, por ejemplo, descargando un archivo JSON
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.result, null, 2));
     const downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href", dataStr);
     downloadAnchorNode.setAttribute("download", "result.json");
-    document.body.appendChild(downloadAnchorNode); // Requiere para Firefox
+    document.body.appendChild(downloadAnchorNode);
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
   }

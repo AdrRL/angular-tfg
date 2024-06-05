@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CookieService } from './cookie.service';
 import { User, UserRegister, Userlogin } from '../interfaces/user.interface';
+import { ApiResponse } from '../interfaces/result.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -56,19 +57,18 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/cerrarSesion/${email}`, {headers});
   }
 
-  public addRecord(imagen: any, position: any): Observable<Object>
+  public addRecord(name: string, record: ApiResponse): Observable<Object>
   {
     let email = this.cookieService.getCookie("email");
     let token = this.cookieService.getCookie("token");
     let headers = new HttpHeaders({"Authorization": `Bearer ${token}`});
 
-    let markerData = {
-      imagen: imagen,
-      positionLat: position.lat(),
-      positionLng: position.lng()
+    let recordData = {
+      name: name,
+      data: record
     };
 
-    return this.http.post(`/vacio/${email}`, markerData, {headers});
+    return this.http.post(`${this.apiUrl}/addRecord/${email}`, recordData, {headers});
   }
 
 }
