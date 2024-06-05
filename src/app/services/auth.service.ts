@@ -24,6 +24,16 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/loginUsuario`, usr);
   }
 
+  public loginGoogleUser(usr: Userlogin): Observable<Object>
+  {
+    return this.http.post(`${this.apiUrl}/agregarGoogleUser`, usr);
+  }
+
+  public loginGitHubUser(usr: Userlogin): Observable<Object>
+  {
+    return this.http.post(`${this.apiUrl}/agregarGitHubUser`, usr);
+  }
+
   public register(usr: UserRegister): Observable<Object>
   {
     return this.http.post(`${this.apiUrl}/registrarUsuario`, usr);

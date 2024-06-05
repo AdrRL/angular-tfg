@@ -18,13 +18,13 @@
       <div class="vertical-bar"></div>
 
       <div class="login-options">
-        <button class="login-option-button google">
+        <button class="login-option-button google" (click)="enterGoogle()">
           <img src="assets/LogInGoogle.png" alt="Google Login">
           Inicio sesión con Google
         </button>
-        <button class="login-option-button openai">
-          <img src="assets/LogInOpenAI.jpg" alt="OpenAI Login">
-          Inicio sesión con OpenAI
+        <button class="login-option-button github" (click)="enterGitHub()">
+          <img src="assets/LogInGitHub.png" alt="GitHub Login">
+          Inicio sesión con GitHub
         </button>
       </div>
     </div>

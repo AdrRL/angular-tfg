@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { GithubAuthProvider, GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
 import { UserRegister, Userlogin } from 'src/app/interfaces/user.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { CookieService } from 'src/app/services/cookie.service';
+
+const provider = new GoogleAuthProvider();
 
 @Component({
   selector: 'access',
@@ -68,6 +71,24 @@ export class AccessComponent
           this.check(respuesta.email);
           this.modalMsg = '¡Inicio de sesión exitoso!';
           this.showSuccessModal();
+        }
+      },
+      (error: any) => {
+        console.error('Error al realizar la petición:', error);
+      }
+    );
+  }
+
+  public loginGoogle(usr: Userlogin): void
+  {
+    this.authService.loginGoogleUser(usr).subscribe(
+      (respuesta: any) => {
+        console.log(respuesta)
+        if (respuesta.email != -1)
+        {
+          this.activateCookie("email", respuesta.email);
+          this.activateCookie("token", respuesta.token);
+          this.check(respuesta.email);
         }
       },
       (error: any) => {
@@ -179,5 +200,72 @@ export class AccessComponent
   {
     this.cookieService.setCookie(email, token);
   }
+
+  public enterGoogle(): void
+  {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+
+        if (user.email != null && token != null && user.photoURL != null && user.displayName != null)
+        {
+          const loginUser: Userlogin = {
+            name: user.displayName,
+            surname: user.displayName,
+            email: user.email,
+            password: token,
+            photo: user.photoURL,
+          }
+          console.log({loginUser})
+          this.loginGoogle(loginUser);
+        }
+
+        this.goTo();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+  }
+
+  public enterGitHub(): void
+  {
+    const auth = getAuth();
+    const provider = new GithubAuthProvider();
+
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user: any = result.user;
+
+        const credential = GithubAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+
+        if (user.email != null && token != null && user.photoURL != null && user.reloadUserInfo !=null )
+        {
+          const loginUser: Userlogin = {
+            name: user.reloadUserInfo.screenName,
+            surname: user.reloadUserInfo.screenName,
+            email: user.email,
+            password: token,
+            photo: user.photoURL,
+          }
+          this.loginGoogle(loginUser);
+        }
+
+        this.goTo();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+  }
+
 
 }

@@ -11,6 +11,10 @@ export interface Userlogin
   email: string;
   password: string;
 
+  photo?: string;
+  name?: string;
+  surname?: string;
+
   record?: string [];
 }
 

@@ -10,7 +10,6 @@ import { FormsModule } from '@angular/forms';
 import { AccessComponent } from './access-page/access-page.component';
 import { ProfilePageComponent } from './Profile-page/Profile-page.component';
 
-
 @NgModule({
   declarations: [
     ViewsComponent,
@@ -24,7 +23,7 @@ import { ProfilePageComponent } from './Profile-page/Profile-page.component';
     RouterModule,
     CommonModule,
     ViewsRoutingModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: []

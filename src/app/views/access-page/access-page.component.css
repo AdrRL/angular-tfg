@@ -133,6 +133,11 @@ h2 {
   margin-top: 10px;
 }
 
+.login-option-button.github {
+  border-color: black ;
+  margin-top: 10px;
+}
+
 .register-container {
   display: flex;
   flex-direction: column;
