@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiResponse, Entity, TransactionalFunction } from 'src/app/interfaces/result.interface';
 import { sendMessages } from 'src/app/models/send.model';
 import { OpenAIService } from 'src/app/services/openai.service';
@@ -10,7 +10,7 @@ import { complexityILFEIF, complexityEI, complexityEOEQ, Data } from 'src/app/mo
   templateUrl: './basic-page.component.html',
   styleUrls: ['./basic-page.component.css'],
 })
-export class BasicPageComponent
+export class BasicPageComponent implements AfterViewInit
 {
   @ViewChild('userInput')
   public userInput!: ElementRef;
@@ -33,6 +33,19 @@ export class BasicPageComponent
   )
   {
 
+  }
+
+  public ngAfterViewInit():void
+  {
+    this.adjustTextareaHeight();
+    this.userInput.nativeElement.addEventListener('input', () => this.adjustTextareaHeight());
+  }
+
+  private adjustTextareaHeight(): void
+  {
+    const textarea = this.userInput.nativeElement;
+    textarea.style.height = 'auto';
+    textarea.style.height = `${textarea.scrollHeight}px`;
   }
 
   public logTextCalcular(text: string): void
@@ -227,6 +240,18 @@ export class BasicPageComponent
     }
 
     return apiResponse;
+  }
+
+  public saveResult(): void
+  {
+    // Lógica para guardar el resultado, por ejemplo, descargando un archivo JSON
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.result, null, 2));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "result.json");
+    document.body.appendChild(downloadAnchorNode); // Requiere para Firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
   }
 
 }

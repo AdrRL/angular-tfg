@@ -17,6 +17,11 @@
     ¿Quienes somos?
   </button>
 
+  <button *ngIf="in" class="toolbar-button" (click)="navigateToProfile()">
+    <img src="assets/Profile.jpg" alt="Profile Logo" class="button-icon" />
+    Perfil
+  </button>
+
   <button *ngIf="in" class="toolbar-button log-out" (click)="exit()">
     Cerrar sesión
     <img src="assets/Salir.png" alt="Puerta Logo" class="button-icon" />

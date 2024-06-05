@@ -26,6 +26,11 @@ export class ViewsComponent
     this.router.navigate(['/FPAwithOpenAI/informacion']);
   }
 
+  public navigateToProfile()
+  {
+    this.router.navigate(['/FPAwithOpenAI/perfil']);
+  }
+
   public navigateToAccess()
   {
     this.router.navigate(['/FPAwithOpenAI/acceso']);

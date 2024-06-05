@@ -44,6 +44,9 @@
   border-radius: 4px;
   box-sizing: border-box;
   margin-bottom: 20px;
+
+  overflow: hidden;
+  resize: none;
 }
 
 .button-container {
@@ -188,8 +191,6 @@ th {
 .chart-container {
   display: flex;
   align-items: center;
-
-  /* justify-content: space-between; */
 }
 
 .total-fp {
@@ -225,6 +226,7 @@ option[disabled]:first-child {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  margin-left: 8rem;
 }
 
 .select-container label {
@@ -240,6 +242,38 @@ option[disabled]:first-child {
   text-align: right;
 }
 
-/* .movement {
-  margin-left: auto;
-} */
+.download-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.save-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.save-button img {
+  width: 20px;
+  height: 20px;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
+
+.save-button:hover img {
+  opacity: 0.8;
+}
+
