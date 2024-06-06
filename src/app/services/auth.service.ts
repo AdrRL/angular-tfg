@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CookieService } from './cookie.service';
-import { User, UserRegister, Userlogin } from '../interfaces/user.interface';
+import { User, UserProfile, UserRegister, Userlogin } from '../interfaces/user.interface';
 import { ApiResponse } from '../interfaces/result.interface';
 
 @Injectable({
@@ -69,6 +69,23 @@ export class AuthService {
     };
 
     return this.http.post(`${this.apiUrl}/addRecord/${email}`, recordData, {headers});
+  }
+
+  public getUser(): Observable<any>
+  {
+    let email = this.cookieService.getCookie("email");
+    let token = this.cookieService.getCookie("token");
+    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`});
+
+    return this.http.get(`${this.apiUrl}/obtenerUsuario/${email}`, {headers});
+  }
+
+  public updateUser(profile: UserProfile): Observable<any>
+  {
+    let token = this.cookieService.getCookie("token");
+    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`});
+
+    return this.http.put(`${this.apiUrl}/actualizarUsuario/${profile.email}`, profile, { headers });
   }
 
 }

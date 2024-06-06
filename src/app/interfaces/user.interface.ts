@@ -1,3 +1,5 @@
+import { ApiResponse } from "./result.interface";
+
 export interface User
 {
   name: string;
@@ -27,4 +29,21 @@ export interface UserRegister
   password: string,
 
   record?: string [];
+}
+
+export interface UserProfile
+{
+  email: string,
+  username: string,
+  firstName: string,
+  lastName: string,
+
+  record: UserRecord[],
+  photo?:string
+}
+
+export interface UserRecord
+{
+  name: string,
+  data: ApiResponse
 }

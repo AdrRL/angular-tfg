@@ -7,8 +7,8 @@
 
     <div class="profile-content">
       <div class="profile-image">
-        <img [src]="profileData.image || 'assets/default-profile.png'" alt="Imagen de perfil">
-        <button class="upload-button" (click)="onUploadImage()">Subir Imagen</button>
+        <img [src]="profileData.photo || 'assets/default-profile.png'" alt="Imagen de perfil">
+        <button class="action-button" (click)="onUploadImage()" [disabled]="!isEditing">Subir Imagen</button>
         <input type="file" id="fileInput" (change)="onFileChange($event)" hidden>
       </div>
 
@@ -16,7 +16,7 @@
         <form (ngSubmit)="onProfileSubmit()">
           <div class="profile-field">
             <label for="email">Correo</label>
-            <input type="email" id="email" [(ngModel)]="profileData.email" name="email" [disabled]="!isEditing" required>
+            <input type="email" id="email" [(ngModel)]="profileData.email" name="email" [disabled]="true" required>
           </div>
           <div class="profile-field">
             <label for="username">Nombre de Usuario</label>
