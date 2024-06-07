@@ -9,7 +9,8 @@ import { ApiResponse } from '../interfaces/result.interface';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl: string = 'http://localhost:3000';
+  //private apiUrl: string = 'http://localhost:3000';
+  private apiUrl: string = 'https://servidortfg.azurewebsites.net';
 
   constructor
   (
@@ -20,72 +21,90 @@ export class AuthService {
 
   }
 
+
+
   public login(usr: Userlogin): Observable<Object>
   {
-    return this.http.post(`${this.apiUrl}/loginUsuario`, usr);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.post(`${this.apiUrl}/loginUsuario`, usr, { headers, withCredentials: true });
   }
 
   public loginGoogleUser(usr: Userlogin): Observable<Object>
   {
-    return this.http.post(`${this.apiUrl}/agregarGoogleUser`, usr);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.post(`${this.apiUrl}/agregarGoogleUser`, usr, { headers, withCredentials: true });
   }
 
   public loginGitHubUser(usr: Userlogin): Observable<Object>
   {
-    return this.http.post(`${this.apiUrl}/agregarGitHubUser`, usr);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.post(`${this.apiUrl}/agregarGitHubUser`, usr, { headers, withCredentials: true });
   }
 
   public register(usr: UserRegister): Observable<Object>
   {
-    return this.http.post(`${this.apiUrl}/registrarUsuario`, usr);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.post(`${this.apiUrl}/registrarUsuario`, usr, { headers, withCredentials: true });
   }
 
   public checkUser(email: string): Observable<Object>
   {
     let token = this.cookieService.getCookie("token");
-    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`});
+    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`, 'Content-Type': 'application/json' });
 
-    return this.http.get(`${this.apiUrl}/comprobarUsuario/${email}`, {headers});
+    return this.http.get(`${this.apiUrl}/comprobarUsuario/${email}`, {headers, withCredentials: true });
   }
 
   public exit(): Observable<Object>
   {
     let email = this.cookieService.getCookie("email");
     let token = this.cookieService.getCookie("token");
-    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`});
+    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`, 'Content-Type': 'application/json' });
 
-    return this.http.get(`${this.apiUrl}/cerrarSesion/${email}`, {headers});
+    return this.http.get(`${this.apiUrl}/cerrarSesion/${email}`, {headers, withCredentials: true });
   }
 
   public addRecord(name: string, record: ApiResponse): Observable<Object>
   {
     let email = this.cookieService.getCookie("email");
     let token = this.cookieService.getCookie("token");
-    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`});
+    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`, 'Content-Type': 'application/json' });
 
     let recordData = {
       name: name,
       data: record
     };
 
-    return this.http.post(`${this.apiUrl}/addRecord/${email}`, recordData, {headers});
+    return this.http.post(`${this.apiUrl}/addRecord/${email}`, recordData, {headers, withCredentials: true });
   }
 
   public getUser(): Observable<any>
   {
     let email = this.cookieService.getCookie("email");
     let token = this.cookieService.getCookie("token");
-    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`});
+    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`, 'Content-Type': 'application/json' });
 
-    return this.http.get(`${this.apiUrl}/obtenerUsuario/${email}`, {headers});
+    return this.http.get(`${this.apiUrl}/obtenerUsuario/${email}`, {headers, withCredentials: true });
   }
 
   public updateUser(profile: UserProfile): Observable<any>
   {
     let token = this.cookieService.getCookie("token");
-    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`});
+    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`, 'Content-Type': 'application/json' });
 
-    return this.http.put(`${this.apiUrl}/actualizarUsuario/${profile.email}`, profile, { headers });
+    return this.http.put(`${this.apiUrl}/actualizarUsuario/${profile.email}`, profile, {headers, withCredentials: true });
   }
 
 }
