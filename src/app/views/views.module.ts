@@ -8,7 +8,7 @@ import { ViewsComponent } from './views.component';
 import { PieChartComponent } from '../shared/pie-chart/pie-chart.component';
 import { FormsModule } from '@angular/forms';
 import { AccessComponent } from './access-page/access-page.component';
-import { ProfilePageComponent } from './Profile-page/Profile-page.component';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
 
 @NgModule({
   declarations: [
