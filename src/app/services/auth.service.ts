@@ -10,7 +10,7 @@ import { ApiResponse } from '../interfaces/result.interface';
 })
 export class AuthService {
   //private apiUrl: string = 'http://localhost:3000';
-  private apiUrl: string = 'https://servidortfg.azurewebsites.net';
+  private apiUrl: string = 'https://servidor-tfg.onrender.com'
 
   constructor
   (
