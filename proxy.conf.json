@@ -1,8 +1,0 @@
-{
-  "/": {
-    "target": "https://servidortfg.azurewebsites.net",
-    "secure": false,
-    "logLevel": "debug",
-    "changeOrigin": true
-  }
-}
