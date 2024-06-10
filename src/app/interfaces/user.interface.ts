@@ -44,6 +44,7 @@ export interface UserProfile
 
 export interface UserRecord
 {
+  type: 'calcular' | 'complejidad',
   name: string,
   data: ApiResponse
 }

@@ -7,7 +7,7 @@ import { complexityILFEIF, complexityEI, complexityEOEQ, Data } from 'src/app/mo
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/services/auth.service';
 import { CookieService } from 'src/app/services/cookie.service';
-import { UserProfile } from 'src/app/interfaces/user.interface';
+import { UserProfile, UserRecord } from 'src/app/interfaces/user.interface';
 
 @Component({
   selector: 'basic-page',
@@ -33,6 +33,7 @@ export class BasicPageComponent implements AfterViewInit
   public currentDate: string | null = '';
   public showErrorModalFlag = false;
   public showSuccessModalFlag = false;
+  public isHistoryModalOpen: boolean = false;
   public modalMsg = '';
 
   public profileData: UserProfile = {
@@ -296,8 +297,8 @@ export class BasicPageComponent implements AfterViewInit
 
   public saveRecord(name: string): void
   {
-    if (this.result)
-      this.authService.addRecord(name, this.result).subscribe(
+    if (this.result && this.selectedAction)
+      this.authService.addRecord(this.selectedAction, name, this.result).subscribe(
         (respuesta: any) => {
         },
         (error: any) => {
@@ -329,6 +330,31 @@ export class BasicPageComponent implements AfterViewInit
     this.modalMsg = message;
     this.showSuccessModalFlag = true;
     setTimeout(() => this.showSuccessModalFlag = false, 3000);
+  }
+
+  public openRecordModal(): void
+  {
+    this.isHistoryModalOpen = true;
+  }
+
+  public closeRecordModal(): void
+  {
+    this.isHistoryModalOpen = false;
+  }
+
+  public loadRecord(record: UserRecord): void
+  {
+    this.result = record.data;
+    this.selectedAction = record.type;
+    this.isHistoryModalOpen = false;
+
+    if (this.result)
+    {
+      this.result = this.assignComplexity(this.result);
+      if (this.selectedAction === 'complejidad')
+        this.FP = this.sumFunctionPoints(this.result);
+
+    }
   }
 
 }

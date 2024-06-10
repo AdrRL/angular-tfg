@@ -9,8 +9,8 @@ import { ApiResponse } from '../interfaces/result.interface';
   providedIn: 'root',
 })
 export class AuthService {
-  //private apiUrl: string = 'http://localhost:3000';
-  private apiUrl: string = 'https://servidor-tfg.onrender.com'
+  private apiUrl: string = 'http://localhost:3000';
+  //private apiUrl: string = 'https://servidor-tfg.onrender.com'
 
   constructor
   (
@@ -75,13 +75,14 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/cerrarSesion/${email}`,  {headers });
   }
 
-  public addRecord(name: string, record: ApiResponse): Observable<Object>
+  public addRecord(type: string, name: string, record: ApiResponse): Observable<Object>
   {
     let email = this.cookieService.getCookie("email");
     let token = this.cookieService.getCookie("token");
     let headers = new HttpHeaders({"Authorization": `Bearer ${token}`, 'Content-Type': 'application/json' });
 
     let recordData = {
+      type: type,
       name: name,
       data: record
     };

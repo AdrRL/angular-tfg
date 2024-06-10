@@ -11,6 +11,7 @@
     <div class="button-container">
       <button (click)="logTextCalcular(userInput.value)" class="action-button" [disabled]="isLoading">Calcular Funciones</button>
       <button (click)="logTextComplejidad(userInput.value)" class="action-button" [disabled]="isLoading">Calcular Complejidad</button>
+      <button (click)="openRecordModal()" class="action-button" [disabled]="isLoading">Historial</button>
     </div>
   </div>
 
@@ -138,4 +139,21 @@
     <h2>JSON</h2>
     <pre>{{ getFormattedJson() }}</pre>
   </div>
+  <div *ngIf="isHistoryModalOpen" class="modal">
+    <div class="modal-content-record" (click)="$event.stopPropagation()">
+      <span class="close" (click)="closeRecordModal()">&times;</span>
+      <h2>Historial de Registros</h2>
+      <ul>
+        <li *ngFor="let record of profileData.record">
+          <button (click)="loadRecord(record); $event.stopPropagation();">
+            {{ record.name }}
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
+
+
+
+
