@@ -29,7 +29,7 @@ export class AuthService {
       'Content-Type': 'application/json',
     });
 
-    return this.http.post(`${this.apiUrl}/loginUsuario`, usr, { headers, withCredentials: true });
+    return this.http.post(`${this.apiUrl}/loginUsuario`, usr, { headers });
   }
 
   public loginGoogleUser(usr: Userlogin): Observable<Object>
