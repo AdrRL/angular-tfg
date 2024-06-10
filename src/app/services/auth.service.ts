@@ -38,7 +38,7 @@ export class AuthService {
       'Content-Type': 'application/json',
     });
 
-    return this.http.post(`${this.apiUrl}/agregarGoogleUser`, usr, { headers, withCredentials: true });
+    return this.http.post(`${this.apiUrl}/agregarGoogleUser`, usr, { headers });
   }
 
   public loginGitHubUser(usr: Userlogin): Observable<Object>
@@ -47,7 +47,7 @@ export class AuthService {
       'Content-Type': 'application/json',
     });
 
-    return this.http.post(`${this.apiUrl}/agregarGitHubUser`, usr, { headers, withCredentials: true });
+    return this.http.post(`${this.apiUrl}/agregarGitHubUser`, usr, { headers });
   }
 
   public register(usr: UserRegister): Observable<Object>
@@ -56,14 +56,14 @@ export class AuthService {
       'Content-Type': 'application/json',
     });
 
-    return this.http.post(`${this.apiUrl}/registrarUsuario`, usr, { headers, withCredentials: true });
+    return this.http.post(`${this.apiUrl}/registrarUsuario`, usr, { headers });
   }
 
   public checkUser(email: string): Observable<Object>
   {
     let token = this.cookieService.getCookie("token");
     let headers = new HttpHeaders({"Authorization": `Bearer ${token}`, 'Content-Type': 'application/json' })
-    return this.http.get(`${this.apiUrl}/comprobarUsuario/${email}`, {headers, withCredentials: true });
+    return this.http.get(`${this.apiUrl}/comprobarUsuario/${email}`, { headers });
   }
 
   public exit(): Observable<Object>
@@ -72,7 +72,7 @@ export class AuthService {
     let token = this.cookieService.getCookie("token");
     let headers = new HttpHeaders({"Authorization": `Bearer ${token}`, 'Content-Type': 'application/json' });
 
-    return this.http.get(`${this.apiUrl}/cerrarSesion/${email}`, {headers, withCredentials: true });
+    return this.http.get(`${this.apiUrl}/cerrarSesion/${email}`,  {headers });
   }
 
   public addRecord(name: string, record: ApiResponse): Observable<Object>
@@ -86,7 +86,7 @@ export class AuthService {
       data: record
     };
 
-    return this.http.post(`${this.apiUrl}/addRecord/${email}`, recordData, {headers, withCredentials: true });
+    return this.http.post(`${this.apiUrl}/addRecord/${email}`, recordData, { headers });
   }
 
   public getUser(): Observable<any>
@@ -95,7 +95,7 @@ export class AuthService {
     let token = this.cookieService.getCookie("token");
     let headers = new HttpHeaders({"Authorization": `Bearer ${token}`, 'Content-Type': 'application/json' });
 
-    return this.http.get(`${this.apiUrl}/obtenerUsuario/${email}`, {headers, withCredentials: true });
+    return this.http.get(`${this.apiUrl}/obtenerUsuario/${email}`, { headers });
   }
 
   public updateUser(profile: UserProfile): Observable<any>
@@ -103,7 +103,7 @@ export class AuthService {
     let token = this.cookieService.getCookie("token");
     let headers = new HttpHeaders({"Authorization": `Bearer ${token}`, 'Content-Type': 'application/json' });
 
-    return this.http.put(`${this.apiUrl}/actualizarUsuario/${profile.email}`, profile, {headers, withCredentials: true });
+    return this.http.put(`${this.apiUrl}/actualizarUsuario/${profile.email}`, profile, { headers });
   }
 
 }
