@@ -6,6 +6,8 @@ import { productivityTable } from 'src/app/models/hours.model';
 import { complexityILFEIF, complexityEI, complexityEOEQ, Data } from 'src/app/models/comparison.model';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/services/auth.service';
+import { CookieService } from 'src/app/services/cookie.service';
+import { UserProfile } from 'src/app/interfaces/user.interface';
 
 @Component({
   selector: 'basic-page',
@@ -29,15 +31,40 @@ export class BasicPageComponent implements AfterViewInit
   public estimatedHours: number = 0;
 
   public currentDate: string | null = '';
+  public showErrorModalFlag = false;
+  public showSuccessModalFlag = false;
+  public modalMsg = '';
+
+  public profileData: UserProfile = {
+    email: '',
+    username: '',
+    firstName: '',
+    lastName: '',
+    record: [],
+    photo: ''
+  };
 
   constructor
   (
     private authService: AuthService,
+    private cookieService: CookieService,
     private openAIService: OpenAIService,
-    // private datePipe: DatePipe,
   )
   {
 
+  }
+
+  public ngOnInit(): void
+  {
+    const userData = this.cookieService.getCookie('user-data');
+    if (userData)
+      {
+      this.profileData = JSON.parse(userData);
+    }
+    else
+    {
+      this.loadUserProfile();
+    }
   }
 
   public ngAfterViewInit():void
@@ -53,11 +80,21 @@ export class BasicPageComponent implements AfterViewInit
     textarea.style.height = `${textarea.scrollHeight}px`;
   }
 
-  // public getCurrentDate(): void
-  // {
-  //   const date = new Date();
-  //   this.currentDate = this.datePipe.transform(date, 'fullDate HH:mm:ss');
-  // }
+  private loadUserProfile(): void
+  {
+    this.isLoading = true;
+    this.authService.getUser().subscribe(
+      (data: UserProfile) => {
+        this.profileData = data;
+        this.cookieService.setCookie('user-data', JSON.stringify(data));
+        this.isLoading = false;
+      },
+      (error) => {
+        this.showErrorModal('Error al cargar el perfil');
+        this.isLoading = false;
+      }
+    );
+  }
 
   public logTextCalcular(text: string): void
   {
@@ -73,9 +110,7 @@ export class BasicPageComponent implements AfterViewInit
 
   private sendMessage(text: string, messageTemplate: string): void
   {
-    console.log('Texto escrito: ' + text);
     let sendMessage = messageTemplate.replace('{text}', text);
-    console.log('Texto enviado: ' + text);
 
     this.isLoading = true;
     this.openAIService.sendMessageObservable(sendMessage).subscribe(
@@ -84,7 +119,6 @@ export class BasicPageComponent implements AfterViewInit
         {
           try
           {
-            console.log('Respuesta de OpenAI:', response);
             const content = response.choices[0].message.content;
             const jsonResponse = this.extractJson(content);
             this.result = JSON.parse(jsonResponse);
@@ -183,7 +217,6 @@ export class BasicPageComponent implements AfterViewInit
     this.selectedLanguage = this.languages.find(lang => lang.id === selectedId);
     if (this.selectedLanguage)
     {
-      console.log(`Número de la lenguaje ${this.selectedLanguage.language}: ${this.selectedLanguage.id}`);
       this.selectedLanguageId = selectedId;
     }
     this.calculateEstimatedHours();
@@ -192,7 +225,6 @@ export class BasicPageComponent implements AfterViewInit
   public showProductivity(event: any)
   {
     this.selectedProductivity = event.target.value;
-    console.log(`Productividad ${this.selectedProductivity}`);
     this.calculateEstimatedHours();
   }
 
@@ -267,7 +299,6 @@ export class BasicPageComponent implements AfterViewInit
     if (this.result)
       this.authService.addRecord(name, this.result).subscribe(
         (respuesta: any) => {
-          console.log(respuesta)
         },
         (error: any) => {
           console.error('Error al realizar la petición:', error);
@@ -284,6 +315,20 @@ export class BasicPageComponent implements AfterViewInit
     document.body.appendChild(downloadAnchorNode);
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
+  }
+
+  public showErrorModal(message: string): void
+  {
+    this.modalMsg = message;
+    this.showErrorModalFlag = true;
+    setTimeout(() => this.showErrorModalFlag = false, 3000);
+  }
+
+  public showSuccessModal(message: string): void
+  {
+    this.modalMsg = message;
+    this.showSuccessModalFlag = true;
+    setTimeout(() => this.showSuccessModalFlag = false, 3000);
   }
 
 }

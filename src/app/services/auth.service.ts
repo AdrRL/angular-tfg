@@ -62,8 +62,7 @@ export class AuthService {
   public checkUser(email: string): Observable<Object>
   {
     let token = this.cookieService.getCookie("token");
-    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`, 'Content-Type': 'application/json' });
-
+    let headers = new HttpHeaders({"Authorization": `Bearer ${token}`, 'Content-Type': 'application/json' })
     return this.http.get(`${this.apiUrl}/comprobarUsuario/${email}`, {headers, withCredentials: true });
   }
 

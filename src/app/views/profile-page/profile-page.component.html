@@ -1,4 +1,4 @@
-<div class="background">
+<div class="background" [class.loadingScreen]="isLoading">
   <div class="profile-container">
     <div class="header">
       <h1>Perfil</h1>
@@ -7,7 +7,7 @@
 
     <div class="profile-content">
       <div class="profile-image">
-        <img [src]="profileData.photo || 'assets/default-profile.png'" alt="Imagen de perfil">
+        <img [src]="profileData.photo || 'assets/Default-profile.png'" alt="Imagen de perfil">
         <button class="action-button" (click)="onUploadImage()" [disabled]="!isEditing">Subir Imagen</button>
         <input type="file" id="fileInput" (change)="onFileChange($event)" hidden>
       </div>
@@ -36,6 +36,10 @@
       </div>
     </div>
 
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <img src="assets/Loading.gif" alt="Cargando...">
   </div>
 
   <div *ngIf="showErrorModalFlag" class="error-modal">

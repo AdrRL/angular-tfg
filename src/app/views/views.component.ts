@@ -64,7 +64,7 @@ export class ViewsComponent
   {
     this.exitSesion();
     this.cookieService.deleteCookie("email");
-    this.cookieService.deleteCookie("usr");
+    this.cookieService.deleteCookie("user-data");
     this.cookieService.deleteCookie("token");
     this.in = false;
     this.navigateToGeneral();
@@ -74,7 +74,6 @@ export class ViewsComponent
   {
     this.authService.exit().subscribe(
       (respuesta: any) => {
-        console.log({respuesta})
       },
       (error: any) => {
         console.error('Error al realizar la petición:', error);

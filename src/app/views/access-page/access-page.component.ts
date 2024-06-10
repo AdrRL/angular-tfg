@@ -28,6 +28,7 @@ export class AccessComponent
   public showErrorModalFlag: boolean = false;
   public showSuccessModalFlag: boolean = false;
   public confirmPassword: string = "";
+  public isLoading = false;
 
   public loginData: Userlogin = {
     email: '',
@@ -55,18 +56,20 @@ export class AccessComponent
 
   public login(usr: Userlogin): void
   {
+    this.isLoading = true;
     usr.email = usr.email.toLowerCase();
 
     this.authService.login(usr).subscribe(
       (respuesta: any) => {
         if (!respuesta || !respuesta.clave || respuesta.clave === -1 )
         {
-          this.modalMsg = 'La contraseñaaaaa o el email/nombre de usuario introducidos no son válidos';
+          this.isLoading = false;
+          this.modalMsg = 'La contraseña o el email/nombre de usuario introducidos no son válidos';
           this.showErrorModal();
         }
         else
         {
-          this.activateCookie("email", respuesta.email);
+          this.activateCookie("email", respuesta.clave);
           this.activateCookie("token", respuesta.token);
           this.check(respuesta.email);
           this.modalMsg = '¡Inicio de sesión exitoso!';
@@ -74,6 +77,7 @@ export class AccessComponent
         }
       },
       (error: any) => {
+        this.isLoading = false;
         console.error('Error al realizar la petición:', error);
       }
     );
@@ -83,15 +87,16 @@ export class AccessComponent
   {
     this.authService.loginGoogleUser(usr).subscribe(
       (respuesta: any) => {
-        console.log(respuesta)
         if (respuesta.email != -1)
         {
+          this.isLoading = false;
           this.activateCookie("email", respuesta.email);
           this.activateCookie("token", respuesta.token);
           this.check(respuesta.email);
         }
       },
       (error: any) => {
+        this.isLoading = false;
         console.error('Error al realizar la petición:', error);
       }
     );
@@ -99,6 +104,8 @@ export class AccessComponent
 
   public register(usr: UserRegister): void
   {
+    this.isLoading = true;
+
     usr.email = usr.email.toLowerCase();
     usr.username = usr.username.toLowerCase();
 
@@ -106,21 +113,25 @@ export class AccessComponent
       (respuesta: any) => {
         if (respuesta.email === -1)
         {
+          this.isLoading = false;
           this.modalMsg = 'El email introducido ya existe';
           this.showErrorModal();
         }
         else if (respuesta.email === -2)
         {
+          this.isLoading = false;
           this.modalMsg = 'El código ya ha sido enviado al correo. Aceptelo para continuar.';
           this.showErrorModal();
         }
         else
         {
+          this.isLoading = false;
           this.modalMsg = '¡Registro exitoso! Revise su correo';
           this.showSuccessModal();
         }
       },
       (error: any) => {
+        this.isLoading = false;
         console.error('Error al realizar la petición:', error);
       }
     );
@@ -188,9 +199,10 @@ export class AccessComponent
   {
     this.authService.checkUser(email).subscribe(
       (respuesta: any) => {
-        console.log({respuesta})
+        this.isLoading = false;
       },
       (error: any) => {
+        this.isLoading = false;
         console.error('Error al realizar la petición:', error);
       }
     );
@@ -203,13 +215,14 @@ export class AccessComponent
 
   public enterGoogle(): void
   {
+    this.isLoading = true;
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
 
     signInWithPopup(auth, provider)
       .then((result) => {
+
         const user = result.user;
-        console.log(user);
 
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential?.accessToken;
@@ -223,20 +236,22 @@ export class AccessComponent
             password: token,
             photo: user.photoURL,
           }
-          console.log({loginUser})
           this.loginGoogle(loginUser);
         }
 
         this.goTo();
       })
       .catch((error) => {
-        console.error(error);
+        this.isLoading = false;
+        this.modalMsg = '¡Error! Ha sucedido un error con su inicio en Google. Inténtelo más tarde';
+        this.showErrorModal();
       });
 
   }
 
   public enterGitHub(): void
   {
+    this.isLoading = true;
     const auth = getAuth();
     const provider = new GithubAuthProvider();
 
@@ -262,7 +277,9 @@ export class AccessComponent
         this.goTo();
       })
       .catch((error) => {
-        console.error(error);
+        this.isLoading = false;
+        this.modalMsg = '¡Error! Ha sucedido un error con su inicio en GitHub. Inténtelo más tarde';
+        this.showErrorModal();
       });
 
   }

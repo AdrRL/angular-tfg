@@ -1,4 +1,4 @@
-<div class="background">
+<div class="background" [class.loadingScreen]="isLoading">
   <div class="access-container">
     <div class="tabs">
       <button [class.active]="isLogin" (click)="toggleLogin(true)">Iniciar Sesión</button>
@@ -41,6 +41,10 @@
         <button type="submit" class="action-button">Registrarse</button>
       </form>
     </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <img src="assets/Loading.gif" alt="Cargando...">
   </div>
 
   <div *ngIf="showErrorModalFlag" class="error-modal">

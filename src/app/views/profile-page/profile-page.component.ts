@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserProfile } from 'src/app/interfaces/user.interface';
 import { AuthService } from 'src/app/services/auth.service';
+import { CookieService } from 'src/app/services/cookie.service';
 
 @Component({
   selector: 'profile-page',
@@ -21,25 +22,46 @@ export class ProfilePageComponent implements OnInit {
   public showErrorModalFlag = false;
   public showSuccessModalFlag = false;
   public modalMsg = '';
+  public isLoading = false;
 
   constructor
   (
-    private authService: AuthService
+    private authService: AuthService,
+    private cookieService: CookieService
   )
   {
   }
 
   public ngOnInit(): void
   {
+    const userData = this.cookieService.getCookie('user-data');
+    if (userData)
+      {
+      this.profileData = JSON.parse(userData);
+    }
+    else
+    {
+      this.loadUserProfile();
+    }
+  }
+
+
+  private loadUserProfile(): void
+  {
+    this.isLoading = true;
     this.authService.getUser().subscribe(
       (data: UserProfile) => {
         this.profileData = data;
+        this.cookieService.setCookie('user-data', JSON.stringify(data));
+        this.isLoading = false;
       },
       (error) => {
         this.showErrorModal('Error al cargar el perfil');
+        this.isLoading = false;
       }
     );
   }
+
 
   public onProfileSubmit(): void
   {

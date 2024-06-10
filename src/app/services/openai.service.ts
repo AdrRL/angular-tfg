@@ -31,8 +31,6 @@ export class OpenAIService
         messages: [{ role: 'user', content: message }]
       });
 
-      console.log('Respuesta :', response);
-
       if (response && response.choices && response.choices.length > 0)
       {
         return response.choices[0].message.content;
@@ -76,9 +74,7 @@ export class OpenAIService
         body: body
       });
 
-      console.log('Respuesta - data: (fetch) ' + response);
       const data = await response.json();
-      console.log('Respuesta - data: (fetch) ', data);
 
       if (data && data.choices && data.choices.length > 0)
       {
