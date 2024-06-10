@@ -33,7 +33,11 @@ export class BasicPageComponent implements AfterViewInit
   public currentDate: string | null = '';
   public showErrorModalFlag = false;
   public showSuccessModalFlag = false;
-  public isHistoryModalOpen: boolean = false;
+  public isRecordModalOpen: boolean = false;
+  public isEditModalOpen: boolean = false;
+
+  public editRecordIndex: number | null = null;
+
   public modalMsg = '';
 
   public profileData: UserProfile = {
@@ -334,19 +338,19 @@ export class BasicPageComponent implements AfterViewInit
 
   public openRecordModal(): void
   {
-    this.isHistoryModalOpen = true;
+    this.isRecordModalOpen = true;
   }
 
   public closeRecordModal(): void
   {
-    this.isHistoryModalOpen = false;
+    this.isRecordModalOpen = false;
   }
 
   public loadRecord(record: UserRecord): void
   {
     this.result = record.data;
     this.selectedAction = record.type;
-    this.isHistoryModalOpen = false;
+    this.isRecordModalOpen = false;
 
     if (this.result)
     {
@@ -354,6 +358,33 @@ export class BasicPageComponent implements AfterViewInit
       if (this.selectedAction === 'complejidad')
         this.FP = this.sumFunctionPoints(this.result);
 
+    }
+  }
+
+  public deleteRecord(index: number): void
+  {
+    this.profileData.record.splice(index, 1);
+    this.updateUserProfile();
+  }
+
+  private updateUserProfile(): void
+  {
+    this.authService.updateUser(this.profileData).subscribe(
+      response => {
+        this.cookieService.setCookie('user-data', JSON.stringify(this.profileData));
+      },
+      error => {
+        console.error('Error al actualizar el perfil:', error);
+      }
+    );
+  }
+
+  public editRecordName(record: UserRecord, index: number): void
+  {
+    const newName = prompt('Ingrese el nuevo nombre:');
+    if (newName !== null && newName.trim() !== '') {
+      this.profileData.record[index].name = newName.trim();
+      this.updateUserProfile();
     }
   }
 

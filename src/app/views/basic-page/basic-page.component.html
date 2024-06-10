@@ -139,15 +139,23 @@
     <h2>JSON</h2>
     <pre>{{ getFormattedJson() }}</pre>
   </div>
-  <div *ngIf="isHistoryModalOpen" class="modal">
+  <div *ngIf="isRecordModalOpen" class="modal" (click)="closeRecordModal()">
     <div class="modal-content-record" (click)="$event.stopPropagation()">
       <span class="close" (click)="closeRecordModal()">&times;</span>
       <h2>Historial de Registros</h2>
       <ul>
-        <li *ngFor="let record of profileData.record">
-          <button (click)="loadRecord(record); $event.stopPropagation();">
-            {{ record.name }}
-          </button>
+        <li *ngFor="let record of profileData.record; let i = index">
+          <div class="record-item">
+            <button class="record-button" (click)="loadRecord(record)">
+              {{ record.name }}
+            </button>
+            <button class="edit-button" (click)="editRecordName(record, i)">
+              <img src="assets/Edit.png" alt="Editar">
+            </button>
+            <button class="delete-button" (click)="deleteRecord(i)">
+              <img src="assets/Delete.png" alt="Eliminar">
+            </button>
+          </div>
         </li>
       </ul>
     </div>

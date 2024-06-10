@@ -289,10 +289,66 @@ button:hover {
   background-color: #ddd;
 }
 
-.modal-content-record {
+.modal-content-record, .modal-content-edit {
   background-color: #fefefe;
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
+}
+
+.record-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.record-button {
+  width: 10000%;
+  padding: 10px;
+  font-size: 16px;
+  text-align: left;
+  border: none;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.record-button:hover {
+  background-color: #ddd;
+}
+
+.edit-button, .delete-button {
+  background-color: #ffa000;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.edit-button img, .delete-button img {
+  width: 24px;
+  height: 24px;
+}
+
+.edit-button {
+  background-color: #ffa000;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+  background-color: #ffcc80;
+}
+
+.delete-button {
+  background-color: #ff0000;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #ff6666;
 }
