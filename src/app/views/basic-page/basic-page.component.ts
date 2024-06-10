@@ -4,7 +4,6 @@ import { sendMessages } from 'src/app/models/send.model';
 import { OpenAIService } from 'src/app/services/openai.service';
 import { productivityTable } from 'src/app/models/hours.model';
 import { complexityILFEIF, complexityEI, complexityEOEQ, Data } from 'src/app/models/comparison.model';
-import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/services/auth.service';
 import { CookieService } from 'src/app/services/cookie.service';
 import { UserProfile, UserRecord } from 'src/app/interfaces/user.interface';
