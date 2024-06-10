@@ -4,6 +4,8 @@ import { GithubAuthProvider, GoogleAuthProvider, getAuth, signInWithPopup } from
 import { UserRegister, Userlogin } from 'src/app/interfaces/user.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { CookieService } from 'src/app/services/cookie.service';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 const provider = new GoogleAuthProvider();
 
@@ -47,6 +49,12 @@ export class AccessComponent
   public goTo(): void
   {
     this.router.navigate(['/FPAwithOpenAI/general']);
+  }
+
+  private isEmailValid(email: string): boolean
+  {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailRegex.test(email);
   }
 
   public toggleLogin(isLogin: boolean)
@@ -106,35 +114,44 @@ export class AccessComponent
   {
     this.isLoading = true;
 
-    usr.email = usr.email.toLowerCase();
-    usr.username = usr.username.toLowerCase();
+    if (!this.isEmailValid(usr.email))
+    {
+      this.isLoading = false;
+      this.modalMsg = 'Correo electrónico no válido'
+      this.showErrorModal();
+    }
+    else
+    {
+      usr.email = usr.email.toLowerCase();
+      usr.username = usr.username.toLowerCase();
 
-    this.authService.register(usr).subscribe(
-      (respuesta: any) => {
-        if (respuesta.email === -1)
-        {
+      this.authService.register(usr).subscribe(
+        (respuesta: any) => {
+          if (respuesta.email === -1)
+          {
+            this.isLoading = false;
+            this.modalMsg = 'El email introducido ya existe';
+            this.showErrorModal();
+          }
+          else if (respuesta.email === -2)
+          {
+            this.isLoading = false;
+            this.modalMsg = 'El código ya ha sido enviado al correo. Aceptelo para continuar.';
+            this.showErrorModal();
+          }
+          else
+          {
+            this.isLoading = false;
+            this.modalMsg = '¡Registro exitoso! Revise su correo';
+            this.showSuccessModal();
+          }
+        },
+        (error: any) => {
           this.isLoading = false;
-          this.modalMsg = 'El email introducido ya existe';
-          this.showErrorModal();
+          console.error('Error al realizar la petición:', error);
         }
-        else if (respuesta.email === -2)
-        {
-          this.isLoading = false;
-          this.modalMsg = 'El código ya ha sido enviado al correo. Aceptelo para continuar.';
-          this.showErrorModal();
-        }
-        else
-        {
-          this.isLoading = false;
-          this.modalMsg = '¡Registro exitoso! Revise su correo';
-          this.showSuccessModal();
-        }
-      },
-      (error: any) => {
-        this.isLoading = false;
-        console.error('Error al realizar la petición:', error);
-      }
-    );
+      );
+    }
   }
 
   public onRegisterSubmit(): void
