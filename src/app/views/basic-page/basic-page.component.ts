@@ -31,7 +31,6 @@ export class BasicPageComponent implements AfterViewInit
 
   public currentDate: string | null = '';
   public showErrorModalFlag = false;
-  public showSuccessModalFlag = false;
   public isRecordModalOpen: boolean = false;
   public isEditModalOpen: boolean = false;
 
@@ -330,13 +329,6 @@ export class BasicPageComponent implements AfterViewInit
     this.modalMsg = message;
     this.showErrorModalFlag = true;
     setTimeout(() => this.showErrorModalFlag = false, 3000);
-  }
-
-  public showSuccessModal(message: string): void
-  {
-    this.modalMsg = message;
-    this.showSuccessModalFlag = true;
-    setTimeout(() => this.showSuccessModalFlag = false, 3000);
   }
 
   public openRecordModal(): void
