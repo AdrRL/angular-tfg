@@ -270,7 +270,7 @@ button:hover {
   background-color: #ddd;
 }
 
-.modal-content-record, .modal-content-edit {
+.modal-content-record {
   background-color: #fefefe;
   margin: 15% auto;
   padding: 20px;
@@ -304,42 +304,6 @@ button:hover {
 
 .record-button:hover {
   background-color: #ddd;
-}
-
-.edit-button, .delete-button {
-  background-color: #ffa000;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  padding: 8px 12px;
-  font-size: 14px;
-}
-
-.edit-button img, .delete-button img {
-  width: 24px;
-  height: 24px;
-}
-
-.edit-button {
-  background-color: #ffa000;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.edit-button:hover {
-  background-color: #ffcc80;
-}
-
-.delete-button {
-  background-color: #ff0000;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.delete-button:hover {
-  background-color: #ff6666;
 }
 
 .api-key-container {
