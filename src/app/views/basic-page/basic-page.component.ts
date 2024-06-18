@@ -38,6 +38,7 @@ export class BasicPageComponent implements AfterViewInit
   public editRecordIndex: number | null = null;
 
   public modalMsg = '';
+  public textAreaMsg = '';
 
   public profileData: UserProfile = {
     email: '',
@@ -115,6 +116,7 @@ export class BasicPageComponent implements AfterViewInit
   private sendMessage(text: string, messageTemplate: string): void
   {
     let sendMessage = messageTemplate.replace('{text}', text);
+    this.textAreaMsg = text;
 
     this.isLoading = true;
     this.openAIService.sendMessageObservable(sendMessage).subscribe(
@@ -301,7 +303,7 @@ export class BasicPageComponent implements AfterViewInit
   public saveRecord(name: string): void
   {
     if (this.result && this.selectedAction)
-      this.authService.addRecord(this.selectedAction, name, this.result).subscribe(
+      this.authService.addRecord(this.selectedAction, this.textAreaMsg, name, this.result).subscribe(
         (respuesta: any) => {
         },
         (error: any) => {
@@ -347,6 +349,8 @@ export class BasicPageComponent implements AfterViewInit
 
   public loadRecord(record: UserRecord): void
   {
+    this.userInput.nativeElement.value = record.text;
+    this.adjustTextareaHeight();
     this.result = record.data;
     this.selectedAction = record.type;
     this.isRecordModalOpen = false;

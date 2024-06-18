@@ -75,7 +75,7 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/cerrarSesion/${email}`,  {headers });
   }
 
-  public addRecord(type: string, name: string, record: ApiResponse): Observable<Object>
+  public addRecord( type: string, text: string, name: string, record: ApiResponse): Observable<Object>
   {
     let email = this.cookieService.getCookie("email");
     let token = this.cookieService.getCookie("token");
@@ -83,6 +83,7 @@ export class AuthService {
 
     let recordData = {
       type: type,
+      text: text,
       name: name,
       data: record
     };
