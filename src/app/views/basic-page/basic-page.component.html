@@ -2,9 +2,14 @@
   <div class="fixed">
     <div class="user">
       <div class="header">
-        <p>Escriba el enunciado del que desea saber información:</p>
+        <div class="api-key-container">
+          <label for="apiKey">API KEY de OpenAI:</label>
+          <input type="text" id="apiKey" class="api-key-input" [(ngModel)]="apiKey" placeholder="Ingrese su API KEY">
+        </div>
+        <p class="instruction-text">Escriba el enunciado del que desea saber información:</p>
         <img class="icon" src="assets/Ask.png" alt="Icono" (click)="openModal()">
       </div>
+
       <textarea #userInput class="user-input" placeholder="Escribe aquí..." [disabled]="isLoading"></textarea>
     </div>
 
@@ -160,6 +165,15 @@
       </ul>
     </div>
   </div>
+
+  <div *ngIf="showErrorModalFlag" class="error-modal">
+    {{modalMsg}}
+  </div>
+
+  <div *ngIf="showSuccessModalFlag" class="success-modal">
+    {{modalMsg}}
+  </div>
+
 </div>
 
 

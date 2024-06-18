@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { OpenAI } from 'openai';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -48,56 +48,11 @@ export class OpenAIService
     }
   }
 
-
-  public async sendMessageFetch(message: string): Promise<any>
-  {
-    const url = 'https://api.openai.com/v1/chat/completions';
-    const apiKey = 'sk-proj-O5bz8wYl6UxWRSocDPV7T3BlbkFJKAw6z3eUWlVP6obcao55';
-
-    const headers =
-    {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`
-    };
-
-    const body = JSON.stringify({
-      //model: 'gpt-3.5-turbo',
-      model: 'gpt-4o',
-      messages: [{ role: 'user', content: message }]
-    });
-
-    try
-    {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: headers,
-        body: body
-      });
-
-      const data = await response.json();
-
-      if (data && data.choices && data.choices.length > 0)
-      {
-        return data.choices[0].message.content;
-      }
-      else
-      {
-        console.warn('La estructura no cumple el formato: (fetch) ', data);
-        return null;
-      }
-    }
-    catch (error)
-    {
-      console.error('Error con la API de OpenAI: (fetch) ', error);
-      throw error;
-    }
-  }
-
-  public sendMessageObservable(message: string): Observable<any>
+  public sendMessageObservable(api:string, message: string): Observable<any>
   {
 
     const url = 'https://api.openai.com/v1/chat/completions';
-    const apiKey = 'sk-proj-O5bz8wYl6UxWRSocDPV7T3BlbkFJKAw6z3eUWlVP6obcao55';
+    const apiKey = api;
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -109,7 +64,12 @@ export class OpenAIService
       messages: [{ role: 'user', content: message }]
     };
 
-    return this.http.post<any>(url, body, { headers });
+    return this.http.post<any>(url, body, { headers }).pipe(
+      catchError(error => {
+        console.error('Error con la APi de OpenAI:', error);
+        return throwError(error);
+      })
+    );
   }
 
 }

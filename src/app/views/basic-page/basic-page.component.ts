@@ -35,6 +35,8 @@ export class BasicPageComponent implements AfterViewInit
   public isRecordModalOpen: boolean = false;
   public isEditModalOpen: boolean = false;
 
+  public apiKey: string = '';
+
   public editRecordIndex: number | null = null;
 
   public modalMsg = '';
@@ -119,7 +121,7 @@ export class BasicPageComponent implements AfterViewInit
     this.textAreaMsg = text;
 
     this.isLoading = true;
-    this.openAIService.sendMessageObservable(sendMessage).subscribe(
+    this.openAIService.sendMessageObservable(this.apiKey, sendMessage).subscribe(
       response => {
         if (response && response.choices && response.choices.length > 0)
         {
@@ -149,7 +151,7 @@ export class BasicPageComponent implements AfterViewInit
         this.isLoading = false;
       },
       error => {
-        console.error('Error con la API de OpenAI:', error);
+        this.showErrorModal('La API de OpenAI proporcionada no es válida');
         this.isLoading = false;
       }
     );
