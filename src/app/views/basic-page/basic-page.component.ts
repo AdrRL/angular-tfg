@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { ApiResponse, Entity, TransactionalFunction } from 'src/app/interfaces/result.interface';
 import { sendMessages } from 'src/app/models/send.model';
 import { OpenAIService } from 'src/app/services/openai.service';
@@ -7,13 +7,14 @@ import { complexityILFEIF, complexityEI, complexityEOEQ, Data } from 'src/app/mo
 import { AuthService } from 'src/app/services/auth.service';
 import { CookieService } from 'src/app/services/cookie.service';
 import { UserProfile, UserRecord } from 'src/app/interfaces/user.interface';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'basic-page',
   templateUrl: './basic-page.component.html',
   styleUrls: ['./basic-page.component.css'],
 })
-export class BasicPageComponent implements AfterViewInit
+export class BasicPageComponent implements AfterViewInit, OnDestroy
 {
   @ViewChild('userInput')
   public userInput!: ElementRef;
@@ -23,6 +24,8 @@ export class BasicPageComponent implements AfterViewInit
   public isModalOpen: boolean = false;
   public FP: [number, number] = [0, 0];
   public languages = productivityTable;
+
+  private subscriptions: Subscription[] = [];
 
   public selectedLanguage: any = null;
   public selectedLanguageId: any = null;
@@ -60,6 +63,11 @@ export class BasicPageComponent implements AfterViewInit
 
   }
 
+  public ngOnDestroy()
+  {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
   public ngOnInit(): void
   {
     const userData = this.cookieService.getCookie('user-data');
@@ -89,7 +97,7 @@ export class BasicPageComponent implements AfterViewInit
   private loadUserProfile(): void
   {
     this.isLoading = true;
-    this.authService.getUser().subscribe(
+    const subscription = this.authService.getUser().subscribe(
       (data: UserProfile) => {
         this.profileData = data;
         this.cookieService.setCookie('user-data', JSON.stringify(data));
@@ -100,6 +108,7 @@ export class BasicPageComponent implements AfterViewInit
         this.isLoading = false;
       }
     );
+    this.subscriptions.push(subscription);
   }
 
   public logTextCalcular(text: string): void
@@ -120,7 +129,7 @@ export class BasicPageComponent implements AfterViewInit
     this.textAreaMsg = text;
 
     this.isLoading = true;
-    this.openAIService.sendMessageObservable(this.apiKey, sendMessage).subscribe(
+    const subscription = this.openAIService.sendMessageObservable(this.apiKey, sendMessage).subscribe(
       response => {
         if (response && response.choices && response.choices.length > 0)
         {
@@ -154,6 +163,7 @@ export class BasicPageComponent implements AfterViewInit
         this.isLoading = false;
       }
     );
+    this.subscriptions.push(subscription);
   }
 
   public extractJson(response: string): string

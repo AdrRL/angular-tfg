@@ -125,6 +125,12 @@
   cursor: not-allowed;
 }
 
+.profile-field input:disabled {
+  background-color: #e0e0e0;
+  color: #888;
+  cursor: not-allowed;
+}
+
 .action-button:hover:not(:disabled) {
   background-color: #00765F;
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { UserProfile } from 'src/app/interfaces/user.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { CookieService } from 'src/app/services/cookie.service';
@@ -8,7 +9,8 @@ import { CookieService } from 'src/app/services/cookie.service';
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.css']
 })
-export class ProfilePageComponent implements OnInit {
+export class ProfilePageComponent implements OnInit, OnDestroy
+{
   public profileData: UserProfile = {
     email: '',
     username: '',
@@ -24,12 +26,19 @@ export class ProfilePageComponent implements OnInit {
   public modalMsg = '';
   public isLoading = false;
 
+  private subscriptions: Subscription[] = [];
+
   constructor
   (
     private authService: AuthService,
     private cookieService: CookieService
   )
   {
+  }
+
+  public ngOnDestroy()
+  {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   public ngOnInit(): void
@@ -49,7 +58,7 @@ export class ProfilePageComponent implements OnInit {
   private loadUserProfile(): void
   {
     this.isLoading = true;
-    this.authService.getUser().subscribe(
+    const subscription = this.authService.getUser().subscribe(
       (data: UserProfile) => {
         this.profileData = data;
         this.cookieService.setCookie('user-data', JSON.stringify(data));
@@ -60,6 +69,8 @@ export class ProfilePageComponent implements OnInit {
         this.isLoading = false;
       }
     );
+
+    this.subscriptions.push(subscription);
   }
 
 
@@ -77,7 +88,7 @@ export class ProfilePageComponent implements OnInit {
 
   private update(): void
   {
-    this.authService.updateUser(this.profileData).subscribe(
+    const subscription = this.authService.updateUser(this.profileData).subscribe(
       () => {
         this.showSuccessModal('Perfil actualizado con éxito');
         this.isEditing = false;
@@ -86,6 +97,8 @@ export class ProfilePageComponent implements OnInit {
         this.showErrorModal('Error al actualizar el perfil');
       }
     );
+
+    this.subscriptions.push(subscription);
   }
 
   public validateProfileData(): boolean
