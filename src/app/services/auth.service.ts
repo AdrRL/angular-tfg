@@ -9,8 +9,8 @@ import { ApiResponse } from '../interfaces/result.interface';
   providedIn: 'root',
 })
 export class AuthService {
-  //private apiUrl: string = 'http://localhost:3000';
-  private apiUrl: string = 'https://servidor-tfg.onrender.com'
+  private apiUrl: string = 'http://localhost:3000';
+  //private apiUrl: string = 'https://servidor-tfg.onrender.com'
 
   constructor
   (

@@ -139,6 +139,12 @@ export class AccessComponent
             this.modalMsg = 'El código ya ha sido enviado al correo. Aceptelo para continuar.';
             this.showErrorModal();
           }
+          else if (respuesta.email === -3)
+            {
+              this.isLoading = false;
+              this.modalMsg = 'El username introducido ya existe';
+              this.showErrorModal();
+            }
           else
           {
             this.isLoading = false;
