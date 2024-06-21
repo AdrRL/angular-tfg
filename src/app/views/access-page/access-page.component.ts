@@ -72,7 +72,7 @@ export class AccessComponent
         if (!respuesta || !respuesta.clave || respuesta.clave === -1 )
         {
           this.isLoading = false;
-          this.modalMsg = 'La contraseña o el email/nombre de usuario introducidos no son válidos';
+          this.modalMsg = 'La contraseña o el email/nombre de usuario introducidos no son válidos.';
           this.showErrorModal();
         }
         else
@@ -117,7 +117,7 @@ export class AccessComponent
     if (!this.isEmailValid(usr.email))
     {
       this.isLoading = false;
-      this.modalMsg = 'Correo electrónico no válido'
+      this.modalMsg = 'Correo electrónico no válido.'
       this.showErrorModal();
     }
     else
@@ -130,7 +130,7 @@ export class AccessComponent
           if (respuesta.email === -1)
           {
             this.isLoading = false;
-            this.modalMsg = 'El email introducido ya existe';
+            this.modalMsg = 'El email introducido ya existe.';
             this.showErrorModal();
           }
           else if (respuesta.email === -2)
@@ -142,13 +142,13 @@ export class AccessComponent
           else if (respuesta.email === -3)
             {
               this.isLoading = false;
-              this.modalMsg = 'El username introducido ya existe';
+              this.modalMsg = 'El username introducido ya existe.';
               this.showErrorModal();
             }
           else
           {
             this.isLoading = false;
-            this.modalMsg = '¡Registro exitoso! Revise su correo';
+            this.modalMsg = '¡Registro exitoso! Revise su correo.';
             this.showSuccessModal();
           }
         },
@@ -266,7 +266,7 @@ export class AccessComponent
       })
       .catch((error) => {
         this.isLoading = false;
-        this.modalMsg = '¡Error! Ha sucedido un error con su inicio en Google. Inténtelo más tarde';
+        this.modalMsg = '¡Error! Ha sucedido un error con su inicio en Google. Inténtelo más tarde.';
         this.showErrorModal();
       });
 
@@ -301,7 +301,7 @@ export class AccessComponent
       })
       .catch((error) => {
         this.isLoading = false;
-        this.modalMsg = '¡Error! Ha sucedido un error con su inicio en GitHub. Inténtelo más tarde';
+        this.modalMsg = '¡Error! Ha sucedido un error con su inicio en GitHub. Inténtelo más tarde.';
         this.showErrorModal();
       });
 
