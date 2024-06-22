@@ -125,45 +125,52 @@ export class BasicPageComponent implements AfterViewInit, OnDestroy
 
   private sendMessage(text: string, messageTemplate: string): void
   {
-    let sendMessage = messageTemplate.replace('{text}', text);
-    this.textAreaMsg = text;
+    if(text == '' || !text)
+    {
+      this.showErrorModal('El contenido no puede ser vacío.');
+    }
+    else
+    {
+      let sendMessage = messageTemplate.replace('{text}', text);
+      this.textAreaMsg = text;
 
-    this.isLoading = true;
-    const subscription = this.openAIService.sendMessageObservable(this.apiKey, sendMessage).subscribe(
-      response => {
-        if (response && response.choices && response.choices.length > 0)
-        {
-          try
+      this.isLoading = true;
+      const subscription = this.openAIService.sendMessageObservable(this.apiKey, sendMessage).subscribe(
+        response => {
+          if (response && response.choices && response.choices.length > 0)
           {
-            const content = response.choices[0].message.content;
-            const jsonResponse = this.extractJson(content);
-            this.result = JSON.parse(jsonResponse);
-            if (this.result)
-              this.result = this.assignComplexity(this.result);
-
-            if ( this.selectedAction == 'complejidad' && this.result)
+            try
             {
-              this.FP = this.sumFunctionPoints(this.result);
-            }
+              const content = response.choices[0].message.content;
+              const jsonResponse = this.extractJson(content);
+              this.result = JSON.parse(jsonResponse);
+              if (this.result)
+                this.result = this.assignComplexity(this.result);
 
+              if ( this.selectedAction == 'complejidad' && this.result)
+              {
+                this.FP = this.sumFunctionPoints(this.result);
+              }
+
+            }
+            catch (error)
+            {
+              console.error('Error con el JSON recibido:', error);
+            }
           }
-          catch (error)
+          else
           {
-            console.error('Error con el JSON recibido:', error);
+            console.warn('La estructura no cumple el formato esperado.');
           }
+          this.isLoading = false;
+        },
+        error => {
+          this.showErrorModal('La API de OpenAI proporcionada no es válida.');
+          this.isLoading = false;
         }
-        else
-        {
-          console.warn('La estructura no cumple el formato esperado.');
-        }
-        this.isLoading = false;
-      },
-      error => {
-        this.showErrorModal('La API de OpenAI proporcionada no es válida.');
-        this.isLoading = false;
-      }
-    );
-    this.subscriptions.push(subscription);
+      );
+      this.subscriptions.push(subscription);
+    }
   }
 
   public extractJson(response: string): string
