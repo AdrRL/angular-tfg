@@ -41,15 +41,6 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/agregarGoogleUser`, usr, { headers });
   }
 
-  public loginGitHubUser(usr: Userlogin): Observable<Object>
-  {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.post(`${this.apiUrl}/agregarGitHubUser`, usr, { headers });
-  }
-
   public register(usr: UserRegister): Observable<Object>
   {
     const headers = new HttpHeaders({
