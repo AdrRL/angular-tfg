@@ -122,9 +122,9 @@
           TOTAL FP: {{ FP[0] + FP[1] }}
         </div>
         <div class="select-container">
-          <label for="languageSelect" class="select-label">Seleccione una lenguaje:</label>
+          <label for="languageSelect" class="select-label">Seleccione un lenguaje:</label>
           <select id="languageSelect" (change)="showLanguage($event)" [(ngModel)]="selectedLanguageId">
-            <option value="" disabled selected>-- Seleccione una lenguaje --</option>
+            <option value="" disabled selected>-- Seleccione un lenguaje --</option>
             <option *ngFor="let language of languages" [value]="language.id">{{ language.language }}</option>
           </select>
           <label for="productivitySelect" class="select-label">Seleccione la productividad:</label>
