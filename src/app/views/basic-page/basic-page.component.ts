@@ -70,15 +70,7 @@ export class BasicPageComponent implements AfterViewInit, OnDestroy
 
   public ngOnInit(): void
   {
-    const userData = this.cookieService.getCookie('user-data');
-    if (userData)
-      {
-      this.profileData = JSON.parse(userData);
-    }
-    else
-    {
-      this.loadUserProfile();
-    }
+    this.loadUserProfile();
   }
 
   public ngAfterViewInit():void
@@ -100,7 +92,6 @@ export class BasicPageComponent implements AfterViewInit, OnDestroy
     const subscription = this.authService.getUser().subscribe(
       (data: UserProfile) => {
         this.profileData = data;
-        this.cookieService.setCookie('user-data', JSON.stringify(data));
         this.isLoading = false;
       },
       (error) => {
@@ -385,7 +376,7 @@ export class BasicPageComponent implements AfterViewInit, OnDestroy
   {
     this.authService.updateUser(this.profileData).subscribe(
       response => {
-        this.cookieService.setCookie('user-data', JSON.stringify(this.profileData));
+        this.loadUserProfile();
       },
       error => {
         console.error('Error al actualizar el perfil:', error);

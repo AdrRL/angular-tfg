@@ -43,15 +43,16 @@ export class ProfilePageComponent implements OnInit, OnDestroy
 
   public ngOnInit(): void
   {
-    const userData = this.cookieService.getCookie('user-data');
-    if (userData)
-      {
-      this.profileData = JSON.parse(userData);
-    }
-    else
-    {
-      this.loadUserProfile();
-    }
+    // const userData = this.cookieService.getCookie('user-data');
+    // if (userData)
+    //   {
+    //   this.profileData = JSON.parse(userData);
+    // }
+    // else
+    // {
+    //   this.loadUserProfile();
+    // }
+    this.loadUserProfile();
   }
 
 
@@ -61,7 +62,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy
     const subscription = this.authService.getUser().subscribe(
       (data: UserProfile) => {
         this.profileData = data;
-        this.cookieService.setCookie('user-data', JSON.stringify(data));
+        // this.cookieService.setCookie('user-data', JSON.stringify(data));
         this.isLoading = false;
       },
       (error) => {
@@ -91,6 +92,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy
     const subscription = this.authService.updateUser(this.profileData).subscribe(
       () => {
         this.showSuccessModal('Perfil actualizado con éxito.');
+        this.loadUserProfile();
         this.isEditing = false;
       },
       (error) => {
