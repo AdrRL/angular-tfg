@@ -104,7 +104,7 @@ export class BasicPageComponent implements AfterViewInit, OnDestroy
         this.isLoading = false;
       },
       (error) => {
-        this.showErrorModal('Error al cargar el perfil');
+        this.showErrorModal('Error al cargar el perfil.');
         this.isLoading = false;
       }
     );
@@ -154,12 +154,12 @@ export class BasicPageComponent implements AfterViewInit, OnDestroy
         }
         else
         {
-          console.warn('La estructura no cumple el formato esperado');
+          console.warn('La estructura no cumple el formato esperado.');
         }
         this.isLoading = false;
       },
       error => {
-        this.showErrorModal('La API de OpenAI proporcionada no es válida');
+        this.showErrorModal('La API de OpenAI proporcionada no es válida.');
         this.isLoading = false;
       }
     );
