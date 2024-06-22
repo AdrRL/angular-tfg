@@ -82,7 +82,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy
     }
     else
     {
-      this.showErrorModal('Error al actualizar el perfil');
+      this.showErrorModal('Algún campo no se encuentra cumplimentado.');
     }
   }
 
@@ -90,11 +90,11 @@ export class ProfilePageComponent implements OnInit, OnDestroy
   {
     const subscription = this.authService.updateUser(this.profileData).subscribe(
       () => {
-        this.showSuccessModal('Perfil actualizado con éxito');
+        this.showSuccessModal('Perfil actualizado con éxito.');
         this.isEditing = false;
       },
       (error) => {
-        this.showErrorModal('Error al actualizar el perfil');
+        this.showErrorModal('Error al actualizar el perfil.');
       }
     );
 
