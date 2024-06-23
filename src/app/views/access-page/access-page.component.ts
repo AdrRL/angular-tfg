@@ -122,34 +122,34 @@ export class AccessComponent
 
       this.authService.register(usr).subscribe(
         (respuesta: any) => {
-          if (respuesta.email === -1)
+          this.isLoading = false;
+          this.modalMsg = '¡Registro exitoso! Revise su correo.';
+          this.showSuccessModal();
+        },
+        (error: any) => {
+          if (error.error.email === -1)
           {
             this.isLoading = false;
             this.modalMsg = 'El email introducido ya existe.';
             this.showErrorModal();
           }
-          else if (respuesta.email === -2)
+          else if (error.error.email === -2)
           {
             this.isLoading = false;
             this.modalMsg = 'El código ya ha sido enviado al correo. Aceptelo para continuar.';
             this.showErrorModal();
           }
-          else if (respuesta.email === -3)
-            {
-              this.isLoading = false;
-              this.modalMsg = 'El username introducido ya existe.';
-              this.showErrorModal();
-            }
+          else if (error.error.email === -3)
+          {
+            this.isLoading = false;
+            this.modalMsg = 'El username introducido ya existe.';
+            this.showErrorModal();
+          }
           else
           {
             this.isLoading = false;
-            this.modalMsg = '¡Registro exitoso! Revise su correo.';
-            this.showSuccessModal();
+            console.error('Error al realizar la petición:', error);
           }
-        },
-        (error: any) => {
-          this.isLoading = false;
-          console.error('Error al realizar la petición:', error);
         }
       );
     }
