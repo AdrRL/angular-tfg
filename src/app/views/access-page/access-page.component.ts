@@ -69,23 +69,16 @@ export class AccessComponent
 
     this.authService.login(usr).subscribe(
       (respuesta: any) => {
-        if (!respuesta || !respuesta.clave || respuesta.clave === -1 )
-        {
-          this.isLoading = false;
-          this.modalMsg = 'La contraseña o el email/nombre de usuario introducidos no son válidos.';
-          this.showErrorModal();
-        }
-        else
-        {
-          this.activateCookie("email", respuesta.clave);
-          this.activateCookie("token", respuesta.token);
-          this.check(respuesta.email);
-          this.modalMsg = '¡Inicio de sesión exitoso!';
-          this.showSuccessModal();
-        }
+        this.activateCookie("email", respuesta.clave);
+        this.activateCookie("token", respuesta.token);
+        this.check(respuesta.email);
+        this.modalMsg = '¡Inicio de sesión exitoso!';
+        this.showSuccessModal();
       },
       (error: any) => {
         this.isLoading = false;
+        this.modalMsg = 'La contraseña o el email/nombre de usuario introducidos no son válidos.';
+        this.showErrorModal();
         console.error('Error al realizar la petición:', error);
       }
     );
@@ -105,6 +98,8 @@ export class AccessComponent
       },
       (error: any) => {
         this.isLoading = false;
+        this.modalMsg = 'Ha sucedido un error con el inicio con cuenta externa, inténtelo en unos minutos.';
+        this.showErrorModal();
         console.error('Error al realizar la petición:', error);
       }
     );
