@@ -215,7 +215,7 @@ export class AccessComponent
     setTimeout(() => {
       this.showSuccessModalFlag = false;
       this.goTo();
-    }, 3000);
+    }, 1000);
   }
 
   public check(email: string): void
