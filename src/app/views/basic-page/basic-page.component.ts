@@ -314,6 +314,7 @@ export class BasicPageComponent implements AfterViewInit, OnDestroy
     if (this.result && this.selectedAction)
       this.authService.addRecord(this.selectedAction, this.textAreaMsg, name, this.result).subscribe(
         (respuesta: any) => {
+          this.loadUserProfile();
         },
         (error: any) => {
           console.error('Error al realizar la petición:', error);
