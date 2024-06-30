@@ -43,4 +43,9 @@ Thumbs.db
 
 .env
 
-/src/environments
+# Ignore everything in the environments directory
+src/environments/*
+
+# Except these files
+!src/environments/environment.ts
+!src/environments/environment.prod.ts

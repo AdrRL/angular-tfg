@@ -12,10 +12,10 @@ const targetPath = isProduction
 
 const envConfigFile = `
 export const environment = {
-  production: ${isProduction},
-  url: '${process.env["URL"]}',
+  PRODUCTION: ${isProduction},
+  URL: '${process.env["URL"]}',
   APIKEY: '${process.env["APIKEY"]}',
-  organization: '${process.env["ORGANIZATION"]}'
+  ORGANIZATION: '${process.env["ORGANIZATION"]}'
 };
 `;
 
