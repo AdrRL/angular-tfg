@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { GithubAuthProvider, GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
-import { UserRegister, Userlogin } from 'src/app/interfaces/user.interface';
+import { UserProfile, UserRegister, Userlogin } from 'src/app/interfaces/user.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { CookieService } from 'src/app/services/cookie.service';
 import { Observable, of } from 'rxjs';
@@ -84,7 +84,7 @@ export class AccessComponent
     );
   }
 
-  public loginGoogle(usr: Userlogin): void
+  public loginGoogle(usr: UserProfile): void
   {
     this.authService.loginGoogleUser(usr).subscribe(
       (respuesta: any) => {
@@ -247,13 +247,14 @@ export class AccessComponent
 
         if (user.email != null && token != null && user.photoURL != null && user.displayName != null)
         {
-          const loginUser: Userlogin = {
-            name: user.displayName,
-            surname: user.displayName,
+          const loginUser: UserProfile = {
+            firstName: user.displayName,
+            lastName: user.displayName,
+            username:  user.displayName,
             email: user.email,
-            password: token,
             photo: user.photoURL,
           }
+
           this.loginGoogle(loginUser);
         }
 
@@ -282,11 +283,11 @@ export class AccessComponent
 
         if (user.email != null && token != null && user.photoURL != null && user.reloadUserInfo !=null )
         {
-          const loginUser: Userlogin = {
-            name: user.reloadUserInfo.screenName,
-            surname: user.reloadUserInfo.screenName,
+          const loginUser: UserProfile = {
+            username: user.reloadUserInfo.screenName,
+            firstName: user.reloadUserInfo.screenName,
+            lastName: user.reloadUserInfo.screenName,
             email: user.email,
-            password: token,
             photo: user.photoURL,
           }
           this.loginGoogle(loginUser);

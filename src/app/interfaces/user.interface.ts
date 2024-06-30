@@ -38,7 +38,7 @@ export interface UserProfile
   firstName: string,
   lastName: string,
 
-  record: UserRecord[],
+  record?: UserRecord[],
   photo?:string
 }
 

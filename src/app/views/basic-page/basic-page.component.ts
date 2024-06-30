@@ -369,8 +369,11 @@ export class BasicPageComponent implements AfterViewInit, OnDestroy
 
   public deleteRecord(index: number): void
   {
-    this.profileData.record.splice(index, 1);
-    this.updateUserProfile();
+    if (this.profileData && this.profileData.record)
+    {
+      this.profileData.record.splice(index, 1);
+      this.updateUserProfile();
+    }
   }
 
   private updateUserProfile(): void
@@ -388,9 +391,13 @@ export class BasicPageComponent implements AfterViewInit, OnDestroy
   public editRecordName(record: UserRecord, index: number): void
   {
     const newName = prompt('Ingrese el nuevo nombre:');
-    if (newName !== null && newName.trim() !== '') {
-      this.profileData.record[index].name = newName.trim();
-      this.updateUserProfile();
+    if (newName !== null && newName.trim() !== '')
+    {
+      if (this.profileData && this.profileData.record)
+      {
+        this.profileData.record[index].name = newName.trim();
+        this.updateUserProfile();
+      }
     }
   }
 

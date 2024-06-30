@@ -32,7 +32,7 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/loginUsuario`, usr, { headers });
   }
 
-  public loginGoogleUser(usr: Userlogin): Observable<Object>
+  public loginGoogleUser(usr: UserProfile): Observable<Object>
   {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
