@@ -34,7 +34,12 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "env.json",
+                "input": "./",
+                "output": "./assets/"
+              }
             ],
             "styles": [
               "src/styles.css"
@@ -43,6 +48,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -70,6 +81,7 @@
         },
         "serve": {
           "options": {
+            "proxyConfig": "proxy.conf.json",
             "port": 10001
           },
           "builder": "@angular-devkit/build-angular:dev-server",

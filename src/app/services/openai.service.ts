@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { OpenAI } from 'openai';
 import { Observable, catchError, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,8 @@ export class OpenAIService
   )
   {
     this.openai = new OpenAI({
-      apiKey: 'sk-proj-O5bz8wYl6UxWRSocDPV7T3BlbkFJKAw6z3eUWlVP6obcao55',
-      organization: 'org-zktg4MwzjJLmUxYn54HRNzf7',
+      apiKey: environment.APIKEY,
+      organization: environment.ORGANIZATION,
       dangerouslyAllowBrowser: true
     });
   }
