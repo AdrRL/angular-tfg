@@ -55,6 +55,10 @@
   flex-direction: column;
 }
 
+.orange-button:hover {
+  background-color: #CC5500 !important;
+}
+
 .action-button {
   background-color: #00A67E;
   border: none;
