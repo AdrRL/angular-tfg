@@ -71,7 +71,7 @@ export class AccessComponent
       (respuesta: any) => {
         this.activateCookie("email", respuesta.clave);
         this.activateCookie("token", respuesta.token);
-        this.check(respuesta.email);
+        this.check(respuesta.clave);
         this.modalMsg = '¡Inicio de sesión exitoso!';
         this.showSuccessModal(1000);
       },
