@@ -7,6 +7,7 @@ import { AccessComponent } from './access-page/access-page.component';
 import { GeneralPageComponent } from './general-page/general-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { ExitGuard } from '../guards/exit.guard';
 
 const routes: Routes = [
     {
@@ -34,7 +35,8 @@ const routes: Routes = [
           },
           {
             path: 'acceso',
-            component: AccessComponent
+            component: AccessComponent,
+            canActivate: [ExitGuard]
           },
           {
             path: 'perfil',
