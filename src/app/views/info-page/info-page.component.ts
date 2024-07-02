@@ -14,5 +14,10 @@ export class InfoPageComponent
   {
   }
 
+  public redirectToLinkedIn()
+  {
+    window.location.href = 'https://www.linkedin.com/in/adriánrodríguezlópez';
+  }
+
 
 }

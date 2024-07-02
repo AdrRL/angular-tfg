@@ -73,7 +73,7 @@ export class AccessComponent
         this.activateCookie("token", respuesta.token);
         this.check(respuesta.email);
         this.modalMsg = '¡Inicio de sesión exitoso!';
-        this.showSuccessModal();
+        this.showSuccessModal(1000);
       },
       (error: any) => {
         this.isLoading = false;
@@ -124,7 +124,7 @@ export class AccessComponent
         (respuesta: any) => {
           this.isLoading = false;
           this.modalMsg = '¡Registro exitoso! Revise su correo.';
-          this.showSuccessModal();
+          this.showSuccessModal(4000);
         },
         (error: any) => {
           if (error.error.email === -1)
@@ -204,7 +204,7 @@ export class AccessComponent
     }, 5000);
   }
 
-  public showSuccessModal(): void
+  public showSuccessModal(time: number): void
   {
     this.showSuccessModalFlag = true;
     setTimeout(() => {

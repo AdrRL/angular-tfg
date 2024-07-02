@@ -7,9 +7,14 @@
 }
 
 .icon {
-  margin-left: 20px;
   height: 16px;
   width: 16px;
+  margin-bottom: 10px;
+}
+
+.instruction-container {
+  display: flex;
+  align-items: center;
 }
 
 .user {
@@ -332,11 +337,10 @@ button:hover {
 }
 
 .instruction-text {
+  margin-right: 10px;
   font-family: Arial, sans-serif;
   font-weight: bold !important;
-  margin-left: 150px;
   font-size: 16px;
-  font-weight: normal;
 }
 
 .error-modal {

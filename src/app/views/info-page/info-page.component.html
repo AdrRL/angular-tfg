@@ -5,19 +5,19 @@
     </div>
     <div class="right">
       <p class="intro-text">
-        Hola a todos! Soy Adrián, un estudiante universitario de la Esiiab apasionado por la tecnología. Aquí, en esta página, estoy dando vida a mi proyecto de Trabajo de Fin de Grado supervisado por mis tutores Pablo Bermejo y José Antonio Gámez. Relativo al método FPA, pretendemos averiguar hasta qué punto puede ser útil y fiable el uso de ChatGPT para acelerar el lento proceso de aplicación de FPA. Poder reducir el tiempo de medición del tamaño del software permitiría un proceso de planificación más rápido, permitiendo al equipo acortar los tiempos del proyecto.
+        !Hola a todos! Me llamo Adrián y soy un estudiante universitario de la Esiiab, todo un apasionado por la tecnología. En esta página, estoy dando vida a mi proyecto del Trabajo de Fin de Grado supervisado por mis tutores Pablo Bermejo y José Antonio Gámez. Relativo al método FPA, pretendemos averiguar hasta qué punto puede ser útil y fiable el uso de ChatGPT para acelerar el lento proceso de aplicación de FPA. Poder reducir el tiempo de medición del tamaño del software permitiría un proceso de planificación más rápido, permitiendo al equipo acortar los tiempos del proyecto.
       </p>
       <p class="name">ADRIÁN RODRÍGUEZ LÓPEZ</p>
     </div>
   </div>
 
   <div class="buttons">
-    <button class="toolbar-button">
-      <img src="assets/Sobre.png" alt="Sobre Logo" class="button-icon" />
+    <button class="toolbar-button" (click)="redirectToLinkedIn()">
+      <img src="assets/Linkedin.png" alt="Sobre Logo" class="button-icon" />
       Adrián Rodríguez López
     </button>
-    <button class="toolbar-button">
-      <img src="assets/Linkedin.png" alt="Linkedin Logo" class="button-icon" />
+    <button class="toolbar-button" [disabled]="true">
+      <img src="assets/Sobre.png" alt="Linkedin Logo" class="button-icon" />
       Adrirodlop25&commat;gmail.com
     </button>
   </div>

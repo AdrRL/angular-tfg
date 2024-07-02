@@ -22,6 +22,7 @@ export class BasicPageComponent implements AfterViewInit, OnDestroy
   public selectedAction: 'calcular' | 'complejidad' | null = null;
   public isLoading: boolean = false;
   public isModalOpen: boolean = false;
+  public isProductivityModalOpen: boolean = false;
   public FP: [number, number] = [0, 0];
   public languages = productivityTable;
 
@@ -197,9 +198,19 @@ export class BasicPageComponent implements AfterViewInit, OnDestroy
     this.isModalOpen = true;
   }
 
+  public openProductivityModal(): void
+  {
+    this.isProductivityModalOpen = true;
+  }
+
   public closeModal(): void
   {
     this.isModalOpen = false;
+  }
+
+  public closeProductivityModal(): void
+  {
+    this.isProductivityModalOpen = false;
   }
 
   public sumFunctionPoints(apiResponse: ApiResponse): [number, number]

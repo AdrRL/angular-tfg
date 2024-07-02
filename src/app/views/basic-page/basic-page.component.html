@@ -6,6 +6,9 @@
           <label for="apiKey">API KEY de OpenAI:</label>
           <input type="text" id="apiKey" class="api-key-input" [(ngModel)]="apiKey" placeholder="Ingrese su API KEY">
         </div>
+
+      </div>
+      <div class="instruction-container">
         <p class="instruction-text">Escriba el enunciado del que desea saber información:</p>
         <img class="icon" src="assets/Ask.png" alt="Icono" (click)="openModal()">
       </div>
@@ -27,7 +30,7 @@
     </button>
     <button class="save-button" (click)="saveResult()">
       <img src="assets/Download.jpg" alt="Descargar">
-      Descargar
+      Descargar JSON
     </button>
   </div>
 
@@ -40,6 +43,17 @@
       <p><strong>Botón "Calcular Funciones":</strong> Detecta las funciones de datos y transaccionales encontradas en el enunciado.</p>
       <p><strong>Botón "Calcular Complejidad":</strong> Calcula la complejidad de las funciones encontradas en el enunciado.</p>
       <p><strong>Botón "Guardadas":</strong> Recuperación de anteriores cálculos.</p>
+    </div>
+  </div>
+
+  <div *ngIf="isProductivityModalOpen" class="modal" (click)="closeProductivityModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <span class="close" (click)="closeProductivityModal()">&times;</span>
+      <h2>¿Qué significa la productividad?</h2>
+      <p><strong>Alta:</strong> Se aplica a proyectos de mantenimiento donde el equipo tiene un buen conocimiento del sistema. En estos casos, la experiencia y familiaridad con el sistema permiten una mayor eficiencia, resultando en una mayor productividad (menos horas necesarias por Punto de Función).</p>
+      <p><strong>Media:</strong> Esta es la categoría estándar para proyectos típicos. Representa la productividad promedio esperada en condiciones normales de trabajo y sin particularidades extremas en cuanto a complejidad o conocimiento del sistema.</p>
+      <p><strong>Baja:</strong> Esta categoría se aplica a proyectos con requisitos no funcionales complejos, estos suelen tener una mayor complejidad técnica o de gestión, lo que se traduce en una menor productividad (mayor cantidad de horas necesarias por Punto de Función).</p>
+      <p>Según los datos obtenidos del estudio publicado por Serpro (https://www.gov.br/pgfn/pt-br/acesso-a-informacao/tecnologia-da-informacao/Roteiro_Contagem_PF_SERPRO_%207.pdf)</p>
     </div>
   </div>
 
@@ -137,8 +151,9 @@
             <option value="low">Baja</option>
           </select>
         </div>
+        <img class="icon" src="assets/Ask.png" alt="Icono" (click)="openProductivityModal()">
         <div class="total-fp" *ngIf="selectedLanguage && selectedProductivity">
-          <p>Horas estimadas: {{ estimatedHours }}</p>
+          <p>Horas estimadas del equipo: {{ estimatedHours }}</p>
         </div>
       </div>
     </div>
@@ -157,10 +172,10 @@
               {{ record.name }}
             </button>
             <button class="edit-button" (click)="editRecordName(record, i)" style="background-color: #ffa000; border: none; cursor: pointer; transition: background-color 0.3s; padding: 8px 12px; text-align: center;" onmouseover="this.style.backgroundColor='#ffcc80';" onmouseout="this.style.backgroundColor='#ffa000';">
-              <img src="assets/Edit.png" alt="Editar" style="width: 24px; height: 24px;">
+              Cambiar nombre <img src="assets/Edit.png" alt="Editar" style="width: 24px; height: 24px;">
             </button>
             <button class="delete-button"  (click)="deleteRecord(i)" style="background-color: #ff0000; border: none; cursor: pointer; transition: background-color 0.3s; padding: 8px 12px; text-align: center;" onmouseover="this.style.backgroundColor='#ff6666';" onmouseout="this.style.backgroundColor='#ff0000';">
-              <img src="assets/Delete.png" alt="Eliminar" style="width: 24px; height: 24px;">
+              Borrar registro <img src="assets/Delete.png" alt="Eliminar" style="width: 24px; height: 24px;">
             </button>
           </div>
         </li>
