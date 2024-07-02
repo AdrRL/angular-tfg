@@ -21,14 +21,14 @@ export class ExitGuard implements CanActivate
   {
     const token = this.cookieService.getCookie('token');
 
-    if (token)
+    if (!token)
     {
-      return false;
+      return true;
     }
     else
     {
       this.router.navigate(['/']);
-      return true;
+      return false;
     }
   }
 }
