@@ -1,27 +1,19 @@
 # AngularTfg
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.6.
+El proyecto ha sido realizado con [Angular CLI](https://github.com/angular/angular-cli) version 16.1.6.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Ejecuta `ng serve` para abrir el servidor de desarrollo. Navega en local a `http://localhost:10001/`. La aplicación se recargará automáticamente si cambia alguno de los archivos fuente.
 
-## Code scaffolding
+## Generación de código
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Ejecuta `ng generate component component-name` para generar un nuevo componente. También es posible el uso de `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Ejecuta `ng build` para realizar un build del proyecto. El build se almacenará en el directorio `dist/`.
 
-## Running unit tests
+## Más ayuda
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Para obtener más ayuda sobre Angular CLI, ejecute `ng help` o consulte la página [Descripción general y referencia de comandos de Angular CLI] (https://angular.io/cli).
